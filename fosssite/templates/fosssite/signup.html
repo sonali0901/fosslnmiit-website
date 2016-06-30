@@ -1,1 +1,46 @@
 {% extends 'fosssite/index.html' %}
+{% block content %}
+
+   <form class="form-horizontal">
+  <fieldset>
+    <legend>Sign-Up Form</legend>
+    <div class="form-group">
+      <label for="inputEmail" class="col-lg-2 control-label">First name</label>
+      <div class="col-lg-10">
+        <input class="form-control" id="inputFirstname" placeholder="First name" type="text">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail" class="col-lg-2 control-label">Last name</label>
+      <div class="col-lg-10">
+        <input class="form-control" id="inputLastname" placeholder="Last name" type="text">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail" class="col-lg-2 control-label">Username</label>
+      <div class="col-lg-10">
+        <input class="form-control" id="inputUser" placeholder="Email" type="text">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+      <div class="col-lg-10">
+        <input class="form-control" id="inputEmail" placeholder="Email" type="text">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+      <div class="col-lg-10">
+        <input class="form-control" id="inputPassword" placeholder="Password" type="password">
+        
+     </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <button type="reset" class="btn btn-default">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
+        {% endblock %}
