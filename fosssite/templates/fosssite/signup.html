@@ -1,46 +1,25 @@
 {% extends 'fosssite/index.html' %}
-{% block content %}
+  {% block content %}
+                <div id="wrapper">
+  <div class="join">HOLA!!</div>
+  
+          <div class="clr"></div>
+            <div class="login-options">Choose on of the following sign up methods.</div>
+                  <a class="twitter" href="#">Twitter</a>
+                    <a class="facebook" href="#">Facebook</a>
+                    <a class="google" href="#">Google+</a>
+                    <div class="clr"><hr /></div>
+                        <div class="mail-text">Or sign up using your email address.</div>
+                                <div class="forms">
+                                    <form action="" method="get" name="register">
+                                    <input name="fullname" type="text" placeholder="First Name" size="40" onClick="border: 1px solid #30a8da;" id="username"/>
+                                    <input name="fullname" type="text" placeholder="Last Name" size="40" onClick="border: 1px solid #30a8da;" id="username"/>
+                                    <input name="fullname" type="text" placeholder="Username" size="40" onClick="border: 1px solid #30a8da;" id="username"/>
+                                    <input name="email" type="text" placeholder="Email ID" size="40" onClick="border: 1px solid #30a8da;" id="mail"/>
+                                    <input name="password" type="password" placeholder="Password" size="40" onClick="border: 1px solid #30a8da;" id="password"/>
+                                    </form>
+                                    </div>
+            <a class="create-acc" href="#">Create My Account</a>
 
-   <form class="form-horizontal">
-  <fieldset>
-    <legend>Sign-Up Form</legend>
-    <div class="form-group">
-      <label for="inputEmail" class="col-lg-2 control-label">First name</label>
-      <div class="col-lg-10">
-        <input class="form-control" id="inputFirstname" placeholder="First name" type="text">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="inputEmail" class="col-lg-2 control-label">Last name</label>
-      <div class="col-lg-10">
-        <input class="form-control" id="inputLastname" placeholder="Last name" type="text">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="inputEmail" class="col-lg-2 control-label">Username</label>
-      <div class="col-lg-10">
-        <input class="form-control" id="inputUser" placeholder="Email" type="text">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="inputEmail" class="col-lg-2 control-label">Email</label>
-      <div class="col-lg-10">
-        <input class="form-control" id="inputEmail" placeholder="Email" type="text">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="inputPassword" class="col-lg-2 control-label">Password</label>
-      <div class="col-lg-10">
-        <input class="form-control" id="inputPassword" placeholder="Password" type="password">
-        
-     </div>
-    </div>
-    <div class="form-group">
-      <div class="col-lg-10 col-lg-offset-2">
-        <button type="reset" class="btn btn-default">Cancel</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </div>
-  </fieldset>
-</form>
-        {% endblock %}
+</div>
+{% endblock %}

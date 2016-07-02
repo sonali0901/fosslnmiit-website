@@ -1,13 +1,14 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
+  {%load staticfiles%}
   <head>
     <title>Foss-LNMIIT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.2/slate/bootstrap.min.css">
 
     <!--  Load site-specific customizations after bootstrap. -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
