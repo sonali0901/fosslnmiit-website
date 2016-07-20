@@ -45,7 +45,6 @@ table {
 /* Reset End */
 .clr { clear: both;}
 body {
-	background: #2B2B2B;
 	margin: 0 auto;
 	padding: 0 auto;
 	font-family: Lucida Grande,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif;
@@ -54,21 +53,21 @@ body {
 	font-size: 16px;
 }
 #wrapper {
-	margin: 65px auto;
-	width: 600px;
+	margin: 70px auto;
+	width: 575px;
 	height:600px;
-	background: #fff;
+	background: #E6E6E6;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	-o-border-radius: 5px;
 	-ms-border-radius: 5px;
 	border-radius: 5px;
-	padding: 40px;
+	padding: 30px;
 }
 
 .join {
 	color: #222;
-	font-size: 44px;
+	font-size: 40px;
 	font-weight:700;
 	float: left;
 	text-shadow: 1px 0 1px #777;
