@@ -38,8 +38,12 @@ def UserFormView(request):
 			#not as plain data
 			user.set_password(password)
 			user.save() #saved to database
-			return render_to_response('fosssite/home.html',user)
-		else:
+
+			user=auth.authenticate(username=username,password=password)
+			if user is not None:
+				auth.login(request,user)
+				return HttpResponseRedirect('/')#url in brackets
+
 			return render(request,template_name,{'form':form})
 
 def auth_view(request):
