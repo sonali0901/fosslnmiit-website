@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'foss.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'FOSSSITE',
-        'USER':'root',
-        'PASSWORD':'mine',
+        'NAME': 'FOSSLNM',
+        'USER':'myprojectuser',
+        'PASSWORD':'password',
         'HOST':'localhost',
-        'PORT':'3306',
+        'PORT':'',
 		
     }
 }
