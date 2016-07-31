@@ -1,0 +1,95 @@
+{% extends 'fosssite/home.html' %}
+
+{% block profile %}
+{% endblock %}
+
+{% block content %}
+
+<div id='main-content' class='container'>
+   <div class='row'>
+ <div class='col-md-12'>
+   <div class='page-header'>
+     <h2>Edit User Profile</h2>
+   </div>
+   <div class='page-body'>
+     <form accept-charset="UTF-8" action="/users" class="form" enctype="multipart/form-data" id="edit_user" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="KW/3tAwoPpmq/MzCtU1Eolw7K8jFlTE0QLduKwL8K8U=" /></div>
+       <div class='row'>
+         <div class='col-md-6'>
+           <div class='form-group'>
+             <label for="user_email">Email</label>
+             <input autofocus="autofocus" class="form-control" id="user_email" name="user[email]" size="30" type="email" value="atomsagar@gmail.com" />
+           </div>
+           <div class='form-group'>
+             <label for="user_name">Name</label>
+             <input class="form-control" id="user_name" name="user[name]" size="30" type="text" value="Sagar Chand Agarwal" />
+           </div>
+           <div class='form-group'>
+             <label for="user_handle">Handle</label>
+             <input class="form-control" id="user_handle" name="user[handle]" size="30" type="text" />
+           </div>
+           <div class='form-group'>
+             <label for="user_password">Password</label>
+             <input class="form-control" id="user_password" name="user[password]" size="30" type="password" />
+           </div>
+           <div class='form-group'>
+             <label for="user_password_confirmation">Password confirmation</label>
+             <input class="form-control" id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password" />
+           </div>
+           <div class='form-group'>
+             <label for="user_current_password">Current password</label> <i>(we need your current password to confirm your changes)</i>
+             <input class="form-control" id="user_current_password" name="user[current_password]" size="30" type="password" />
+           </div>
+           <div class='form-group'>
+             <label for="user_avatar">Avatar</label>
+             <input id="user_avatar" name="user[avatar]" type="file" />
+           </div>
+         </div>
+         <div class='col-md-6'>
+           <div class='form-group'>
+             <div class='input-group'>
+               <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
+               <input class="form-control" id="user_twitter_handle" name="user[twitter_handle]" placeholder="http://www.twitter.com/example" size="30" type="text" />
+             </div>
+             <br/>
+             <div class='input-group'>
+               <span class="input-group-addon"><i class="fa fa-facebook"></i></span>
+               <input class="form-control" id="user_facebook_profile" name="user[facebook_profile]" placeholder="http://www.facebook.com/example" size="30" type="text" />
+             </div>
+             <br/>
+             <div class='input-group'>
+               <span class="input-group-addon"><i class="fa fa-linkedin"></i></span>
+               <input class="form-control" id="user_linkedin_profile" name="user[linkedin_profile]" placeholder="http://www.linkedin.com/example" size="30" type="text" />
+             </div>
+             <br/>
+             <div class='input-group'>
+               <span class="input-group-addon"><i class="fa fa-github"></i></span>
+               <input class="form-control" id="user_github_profile" name="user[github_profile]" placeholder="http://www.github.com/example" size="30" type="text" />
+             </div>
+             <br/>
+             <div class='input-group'>
+               <span class="input-group-addon"><i class="fa fa-home"></i></span>
+               <input class="form-control" id="user_homepage" name="user[homepage]" placeholder="http://www.example.com" size="30" type="text" />
+             </div>
+           </div>
+         </div>
+       </div>
+       <div class='row'>
+         <div class='col-md-12'>
+           <div class='form-group'>
+             <label for="user_about_me">About me</label>
+             <textarea class="form-control" cols="40" id="user_about_me" name="user[about_me]" rows="10">
+
+             </textarea>
+           </div>
+         </div>
+       </div>
+
+       <div class='form-group'>
+         <input class="btn btn-primary btn-lg" name="commit" type="submit" value="Update" />
+       </div>
+     </form>
+    </div>
+ </div>
+</div>
+
+{% endblock %}

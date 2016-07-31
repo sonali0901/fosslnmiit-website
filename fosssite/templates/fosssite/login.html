@@ -1,4 +1,7 @@
 {% extends 'fosssite/home.html' %}
+{% block profile %}
+{% endblock %}
+
 {% block content %}
   <div id="wrapper">
     <div class="join">
@@ -7,7 +10,7 @@
         <div class="clr">
           <hr />
         </div>
-            <div class="mail-text">LogIn</div>
+            <div class="mail-text">Login with your credentials!!</div>
                 <div class="forms">
                   <form action="/auth/" method="POST">{% csrf_token %}
                     <input name="username" type="text" placeholder="Username" size="40" onClick="border: 1px solid #30a8da;" id="username"/>

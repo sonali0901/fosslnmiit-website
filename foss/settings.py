@@ -77,13 +77,12 @@ WSGI_APPLICATION = 'foss.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'FOSSLNM',
-        'USER':'myprojectuser',
-        'PASSWORD':'password',
-        'HOST':'localhost',
-        'PORT':'',
-		
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'foss',
+        'USER': 'admin',
+        'PASSWORD': 'fosslnm',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 

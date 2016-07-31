@@ -11,11 +11,12 @@ from .forms import UserForm
 
 def home(request):
 	return render(request, 'fosssite/home.html')
+
 def login(request):
 	c={}
 	c.update(csrf(request))
 	return render_to_response('fosssite/login.html',c)
-	
+
 def UserFormView(request):
 	form_class=UserForm
 	template_name='fosssite/signup.html'
@@ -58,11 +59,14 @@ def auth_view(request):
 		return HttpResponseRedirect('/invalid')
 
 def loggedin(request):
-	return render_to_response('fosssite/loggedin.html',{'fullname':request.user.username})
+	return render_to_response('fosssite/profileuser.html',{'fullname':request.user.username})
 
 def logout(request):
 	auth.logout(request)
-	return render_to_response('fosssite/logout.html')
+	pass
+
+def edit_user_profile(request):
+	pass
 
 def invalid_login(request):
 	return render_to_response('fosssite/invalid_login.html')

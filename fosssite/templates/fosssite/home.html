@@ -1,6 +1,6 @@
 {% load staticfiles %}
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   {%load staticfiles%}
 
   <head>
@@ -28,8 +28,10 @@
             <li><a href="">Blog</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            {% block profile %}
             <li><a href="signup"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
             <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            {% endblock %}
           </ul>
         </div>
       </div>
