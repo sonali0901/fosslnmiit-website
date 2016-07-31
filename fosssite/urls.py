@@ -4,6 +4,10 @@ from django.conf.urls import patterns, url
 
 
 urlpatterns = [
-	url(r'^$', views.home, name='home'),
-	url(r'^signup/', views.signup, name='signup'),
+	url(r'^$', views.home),
+	url(r'^signup/$', views.UserFormView),
+	url(r'^login/$',views.login),
+	url(r'^auth/$',views.auth_view),
+	url(r'^profileuser/$',views.loggedin),
+	url(r'^edituser/$',views.edit_user_profile),
 ]
