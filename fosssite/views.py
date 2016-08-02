@@ -54,11 +54,11 @@ def auth_view(request):
 
 	if user is not None:
 		auth.login(request,user)
-		return HttpResponseRedirect('/loggedin')#url in brackets
+		return HttpResponseRedirect('/profileuser')#url in brackets
 	else:
 		return HttpResponseRedirect('/invalid')
 
-def loggedin(request):
+def profileuser(request):
 	return render_to_response('fosssite/profileuser.html',{'fullname':request.user.username})
 
 def logout(request):
