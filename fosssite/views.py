@@ -54,7 +54,7 @@ def auth_view(request):
 
 	if user is not None:
 		auth.login(request,user)
-		return HttpResponseRedirect('/loggedin')#url in brackets
+		return HttpResponseRedirect('/profileuser')#url in brackets
 	else:
 		return HttpResponseRedirect('/invalid')
 
