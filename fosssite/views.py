@@ -63,10 +63,10 @@ def profileuser(request):
 
 def logout(request):
 	auth.logout(request)
-	pass
+	return HttpResponseRedirect('/')
 
 def edit_user_profile(request):
-	pass
+	return  render_to_response('fosssite/edituser.html')
 
 def invalid_login(request):
 	return render_to_response('fosssite/invalid_login.html')
