@@ -7,8 +7,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -19,7 +19,7 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -243,9 +243,9 @@ body {
 }
 .forms input:focus {
     box-shadow: 0 0 5px rgba(48, 168, 218, 1);
-    -webkit-box-shadow: 0 0 5px rgba(48, 168, 218, 1); 
+    -webkit-box-shadow: 0 0 5px rgba(48, 168, 218, 1);
     -moz-box-shadow: 0 0 5px rgba(48, 168, 218, 1);
-    border:1px solid rgba(48, 168, 218, 1) !important; 
+    border:1px solid rgba(48, 168, 218, 1) !important;
 }
 .forms #username {
 	background:url("http://i.imgur.com/n6engUt.png") no-repeat left center;
