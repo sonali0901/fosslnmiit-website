@@ -62,6 +62,7 @@ def auth_view(request):
 	else:
 		return HttpResponseRedirect('/invalid')
 """
+@login_required
 def profileuser(request):
 	#url = request.user.profile.url
 	return render(request,'fosssite/profileuser.html',{'username':request.user.username})
