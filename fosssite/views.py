@@ -71,7 +71,9 @@ def logout(request):
 	auth.logout(request)
 	return HttpResponseRedirect('/')
 
+@login_required
 def edit_user_profile(request):
+		
 	return  render_to_response('fosssite/edituser.html')
 """
 def invalid_login(request):
