@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth import authenticate,login
 from django.core.context_processors import csrf
+from passlib.hash import pbkdf2_sha256
 from .forms import UserForm
 
 # Create your views here.
@@ -35,15 +36,15 @@ def UserFormView(request):
 			user=form.save(commit=False)
 			#normalized data
 			username=form.cleaned_data['username']
-			password=form.cleaned_data['password']
+			text_password=form.cleaned_data['password']
 			#not as plain data
-			user.set_password(password)
+			password=pbkdf2_sha256.encrypt(text_password,rounds=12000,salt_size=32)
 			user.save() #saved to database
 
 			user=auth.authenticate(username=username,password=password)
 			if user is not None:
 				auth.login(request,user)
-				return HttpResponseRedirect('/')#url in brackets
+				return HttpResponseRedirect('/profileuser')#url in brackets
 
 			return render(request,template_name,{'form':form})
 
@@ -59,7 +60,8 @@ def auth_view(request):
 		return HttpResponseRedirect('/invalid')
 
 def profileuser(request):
-	return render_to_response('fosssite/profileuser.html',{'fullname':request.user.username})
+	#url = request.user.profile.url
+	return render_to_response('fosssite/profileuser.html',{'username':request.user.username})
 
 def logout(request):
 	auth.logout(request)
@@ -70,3 +72,6 @@ def edit_user_profile(request):
 
 def invalid_login(request):
 	return render_to_response('fosssite/invalid_login.html')
+
+def view_profile(request):
+    url = request.user.profile.url
