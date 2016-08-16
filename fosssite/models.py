@@ -1,10 +1,14 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-# Create your models here.
-class User(models.Model):
-	firstname=models.CharField(max_length=200)
-	lastname=models.CharField(max_length=200)
-	username=models.CharField(max_length=200)
-	email=models.ForeignKey('auth.User')
-	password=models.CharField(max_length=200)
+class UserProfile(models.Model):
+	user = models.OneToOneField(User)
+	handle = models.CharField(max_length=128, blank=True)
+	#avatar = models.FileField(default='')
+	about_me = models.TextField(blank=True)
+	twitterurl = models.URLField(blank=True)
+	facebookurl = models.URLField(blank=True)
+	lnkdnurl = models.URLField(blank=True)
+	githuburl = models.URLField(blank=True)
+	example = models.URLField(blank=True)

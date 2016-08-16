@@ -7,9 +7,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 #from django.core.context_processors import csrf
 #from django.views.decorators import csrf
-from passlib.hash import pbkdf2_sha256
-from .forms import UserForm
-
+#from passlib.hash import pbkdf2_sha256
+from .forms import UserForm, UserProfileForm
+from .models import UserProfile
+#from django.views.generic.edit import UpdateView
 # Create your views here.
 
 def home(request):
@@ -19,8 +20,8 @@ def home(request):
 
 def login_user(request):
 	if request.method == 'POST':
-		username = request.POST['username']
-		password = request.POST['password']
+		username = request.POST.get('username')
+		password = request.POST.get('password')
 		user = authenticate(username=username,password=password)
 		if user is not None:
 			auth.login(request, user)
@@ -73,8 +74,43 @@ def logout(request):
 
 @login_required
 def edit_user_profile(request):
-		
-	return  render_to_response('fosssite/edituser.html')
+
+	if request.method == 'POST':
+		profile_form = UserProfileForm(data=request.POST)
+		user_form = UserForm(data=request.POST)
+		if user_form.is_valid() and profile_form.is_valid():
+			user = user_form.save(commit=False)
+			user.email = request.POST.get('user[email]')
+			user.first_name = request.POST.get('user[fname]')
+			user.last_name = request.POST.get('user[lname]')
+
+			profile = profile_form.save(commit=False)
+			profile.save(commit=False)
+			profile.user = user
+			profile.handle = request.POST.get('user[handle]')
+			profile.about_me = request.POST.get('user[about_me]')
+			profile.twitterurl = request.POST.get('user[twitter_handle]')
+			profile.facebookurl = request.POST.get('user[facebook_profile]')
+			profile.lnkdnurl = request.POST.get('user[linkedin_profile]')
+			profile.githuburl = request.POST.get('user[github_profile]')
+			profile.example = request.POST.get('user[homepage]')
+			password1 = request.POST.get('user[password]')
+			password2 = request.POST.get('user[password_confirmation]')
+
+
+			if (password1 == password2) and (password1 != None or ''):
+				user.set_password(user.password)
+			elif password1 == None or '':
+				pass
+			else:
+				return render(request,'fosssite/edituser.html',{error_message :"Password Must Match!"})
+			profile.save()
+			user.save()
+			return redirect('fosssite:profileuser')
+	else:
+		profile_form = UserProfileForm()
+		user_form = UserForm()
+	return  render(request,'fosssite/edituser.html',{'usereditform':profile_form,'userform':user_form})
 """
 def invalid_login(request):
 	return render_to_response('fosssite/invalid_login.html')
