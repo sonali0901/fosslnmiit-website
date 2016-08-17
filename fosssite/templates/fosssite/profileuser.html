@@ -50,26 +50,22 @@
 				<table class='table table-bordered'>
 						<tr>
 							<th width='30%'>Name</th>
-							<td>{{ username }}</td>
+							<td>{{ user.first_name}} {{ user.last_name }}</td>
 						</tr>
 						<tr>
 							<th>Handle</th>
-							<td></td>
+							<td>{{ userprofile.handle }}</td>
 						</tr>
 						<tr>
-							<th>Registered On</th>
-							<td>
-								May 20 2016
-							</td>
+							<th width='30%'>Email</th>
+							<td>{{user.email}}</td>
 						</tr>
 						<tr>
-							<th colspan=2>About Me</th>
+							<th width='30%'>About Me</th>
+							<td>{{userprofile.about_me}}</td>
 						</tr>
-						<tr>
-							<td colspan=2>
-								<br/>
-							</td>
-						</tr>
+
+
 				</table>
 			</div>
 		</div>

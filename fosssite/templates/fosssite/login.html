@@ -1,5 +1,6 @@
 {% extends 'fosssite/home.html' %}
 {% block profile %}
+<li><a href="{% url 'fosssite:UserFormView'%}"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
 {% endblock %}
 
 {% block content %}
@@ -13,8 +14,9 @@
             <div class="mail-text">Login with your credentials!!</div>
                 <div class="forms">
                     {% if error_message %}
-                        <p><strong>{{ error_message }}</strong></p>
+                        <p class="text-danger">{{ error_message }}</p>
                     {% endif %}
+                    <br/>
                   <form action="" method="POST">{% csrf_token %}
                     <input name="username" type="text" placeholder="Username" size="40" onClick="border: 1px solid #30a8da;" id="username"/>
                     <input name="password" type="password" placeholder="Password" size="40" onClick="border: 1px solid #30a8da;" id="password"/>

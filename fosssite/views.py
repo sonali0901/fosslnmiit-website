@@ -34,9 +34,11 @@ def login_user(request):
 
 def UserFormView(request):
 	form=UserForm(request.POST or None)
+	profile_form = UserProfileForm()
 	if form.is_valid():
 		# not saving to database only creating object
 		user=form.save(commit=False)
+		profile = profile_form.save(commit=False)
 		#normalized data
 		user.first_name = form.data['fname']
 		user.last_name = form.data['lname']
@@ -49,6 +51,8 @@ def UserFormView(request):
 		user = auth.authenticate(username=username,password=password)
 		if user is not None:
 			auth.login(request, user)
+			profile.profileuser = request.user
+			profile.save()
 			return redirect('fosssite:profileuser')
 	return render(request,'fosssite/signup.html',{'form':form})
 """
@@ -66,8 +70,11 @@ def auth_view(request):
 @login_required
 def profileuser(request):
 	#url = request.user.profile.url
-	return render(request,'fosssite/profileuser.html',{'username':request.user.username})
+	#context_dict = {'user':request.user}
+	userprofile = get_object_or_404(UserProfile,profileuser=request.user)
+	return render(request,'fosssite/profileuser.html',{'user':request.user,'userprofile':userprofile})
 
+@login_required
 def logout(request):
 	auth.logout(request)
 	return HttpResponseRedirect('/')
@@ -137,20 +144,26 @@ def changepassword(request):
 			if password1 == password2 and len(password1) !=0:
 				user.set_password(password1)
 				user.save()
-				return redirect('fosssite:profileuser')
+				user = auth.authenticate(username=user.username,password=password1)
+				if user is not None:
+					auth.login(request, user)
+					return redirect('fosssite:profileuser')
 			else:
-				error = 'Password Must Match!'
+				error = 'New Password Must Match and valid!'
 				return render(request, 'fosssite/changepassword.html',{'error':error})
 		else:
-			error = 'Current Password Does not Match!'
+			error = 'Current Password not Matched!'
 			return render(request,'fosssite/changepassword.html',{'error':error})
 	return render(request,'fosssite/changepassword.html')
 
+@login_required
 def events(request):
 	return render(request,'fosssite/working.html',{})
 
+@login_required
 def contributions(request):
 	return render(request,'fosssite/working.html',{})
 
+@login_required
 def blog(request):
 	return render(request,'fosssite/working.html',{})
