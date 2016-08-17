@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 #from django.core.context_processors import csrf
 #from django.views.decorators import csrf
 #from passlib.hash import pbkdf2_sha256
-from .forms import UserForm, UserProfileForm, UserEditForm, PasswordEditForm
+from .forms import UserForm, UserProfileForm, UserEditForm
 from .models import UserProfile, User
 #from django.views.generic.edit import UpdateView
 # Create your views here.
@@ -114,16 +114,13 @@ def edit_user_profile(request):
 			profile.profileuser = request.user
 			if 'avatar' in request.FILES:
 				profile.avatar = request.FILES['avatar']
+				print profile.avatar.size
+				if profile.avatar.size > 1048576:
+					errors= 'Max File Size is 1 MB'
+					return render(request,'fosssite/tempedit.html',{'profile_form':profile_form,'user_form':user_form,'errors':errors})
 			profile_form.save()
 			user_form.save()
 			return redirect('fosssite:profileuser')
-		else:
-			print "*"*20
-			print 'New'
-			print "*"*20
-			print profile_form.errors
-			print "*"*20
-			print user_form.errors
 	else:
 		profile_form = UserProfileForm(instance=puser)
 		user_form = UserEditForm(instance=request.user)
