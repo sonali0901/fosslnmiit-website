@@ -83,6 +83,8 @@ def edit_user_profile(request):
 		if user_form.is_valid() and profile_form.is_valid():
 
 			user = user_form.save(commit=False)
+			profile = profile_form.save(commit=False)
+			"""
 			user.email = request.POST.get('user[email]')
 			user.first_name = request.POST.get('user[fname]')
 			user.last_name = request.POST.get('user[lname]')
@@ -101,8 +103,8 @@ def edit_user_profile(request):
 			profile.example = request.POST.get('user[homepage]')
 
 			#password2 = request.POST.get('user[password_confirmation]')
-
-
+			"""
+			profile.profileuser = request.user
 			profile_form.save()
 			user_form.save()
 			return redirect('fosssite:profileuser')
