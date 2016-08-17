@@ -1,0 +1,91 @@
+{% extends 'fosssite/home.html' %}
+
+{% block profile %}
+<li><a href="{% url 'fosssite:profileuser' %}"><span class="glyphicon glyphicon-edit"></span>Profile</a></li>
+<li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+{% endblock %}
+
+{% block content %}
+<div id='main-content' class='container'>
+   <div class='row'>
+ <div class='col-md-12'>
+   <div class='page-header'>
+     <h2>Edit User Profile</h2>
+   </div>
+   <div class='page-body'>
+     <form accept-charset="UTF-8" action="" class="form" enctype="multipart/form-data" id="edit_user" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="KW/3tAwoPpmq/MzCtU1Eolw7K8jFlTE0QLduKwL8K8U=" /></div>
+         {% csrf_token %}
+
+
+       <div class='row'>
+         <div class='col-md-6'>
+             <div class='form-group'>
+               <label for="user_email">Email</label>
+               <input autofocus="autofocus" class="form-control" id="user_email"{{ user_form.email }}
+             </div>
+             <div class='form-group'>
+               <label for="user_name">First Name</label>
+               <input class="form-control" id="user_name" {{ user_form.first_name }}
+             </div>
+             <div class='form-group'>
+               <label for="user_name">Last Name</label>
+               <input class="form-control" id="user_name" {{ user_form.last_name }}
+             </div>
+             <div class='form-group'>
+               <label for="user_handle">Handle</label>
+               <input class="form-control" id="user_handle" {{ profile_form.handle }}
+             </div>
+             <div class='form-group'>
+               <label for="user_password">Password</label>
+               <input class="form-control" id="user_password" {{ user_form.password }}
+             </div>
+             <div class='col-md-6'>
+
+               <div class='form-group'>
+                 <div class='input-group'>
+                   <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
+                   <input class="form-control" id="user_twitter_handle" placeholder="http://www.twitter.com/example" size="30" type="text"  {{ profile_form.twitterurl }}
+                 </div>
+                 <br/>
+                 <div class='input-group'>
+                   <span class="input-group-addon"><i class="fa fa-facebook"></i></span>
+                   <input class="form-control" id="user_facebook_profile" placeholder="http://www.facebook.com/example" size="30" type="text" {{ profile_form.facebookurl }}
+                 </div>
+                 <br/>
+                 <div class='input-group'>
+                   <span class="input-group-addon"><i class="fa fa-linkedin"></i></span>
+                   <input class="form-control" id="user_linkedin_profile" placeholder="http://www.linkedin.com/example" size="30" type="text" {{ profile_form.lnkdnurl }}
+                 </div>
+                 <br/>
+                 <div class='input-group'>
+                   <span class="input-group-addon"><i class="fa fa-github"></i></span>
+                   <input class="form-control" id="user_github_profile" placeholder="http://www.github.com/example" size="30" type="text" {{ profile_form.githuburl }}
+                 </div>
+                 <br/>
+                 <div class='input-group'>
+                   <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                   <input class="form-control" id="user_homepage" placeholder="http://www.example.com" size="30" type="text" {{ profile_form.example }}
+                 </div>
+             </div>
+           </div>
+         </div>
+         <div class='row'>
+           <div class='col-md-12'>
+
+             <div class='form-group'>
+               <label for="user_about_me">About me</label>
+               <textarea class="form-control" cols="40" id="user_about_me" rows="10" {{ profile_form.about_me }}
+
+               </textarea>
+             </div>
+           </div>
+         </div>
+         <div class='form-group'>
+           <input class="btn btn-primary btn-lg" name="commit" type="submit" value="Update" />
+         </div>
+       </form>
+      </div>
+   </div>
+  </div>
+
+  {% endblock %}

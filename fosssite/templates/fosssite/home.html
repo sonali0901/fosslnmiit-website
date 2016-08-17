@@ -17,7 +17,7 @@
   </head>
 
   <body>
-    
+<div class="experiment">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="collapse navbar-collapse">
@@ -41,14 +41,19 @@
 
       {% endblock %}
 
-    <footer>
+      <div class="push"></div>
+      </div>
+    <div class="footer">
       <div class='container'>
         <div class='row'>
           <hr/>
-          <div class='col-md-4'>
+          <div class='col-md-2'>
             <img alt="fosslnmiit-logo" src="{% static 'assets/foss.png' %}" height="40" width="40" /> <br/>
           </div>
-          <div class='col-md-5'></div>
+          <div class='col-md-7'>
+                  Made with <a href='http://www.django.org' target='_blank'>Django</a> with love from <a href="http://www.getbootstrap.com" target='_blank'>Twitter Bootstrap</a> &amp; <a href="http://www.bootswatch.com" target='_blank'>Bootswatch</a>.
+
+          </div>
           <div class='col-md-3'>
             <div class='row'>
               <div class='col-md-12'><small><strong>Foss LNMIIT Community</strong></small></div>
@@ -64,18 +69,8 @@
             </div>
           </div>
         </div>
-        <div class='row'>
-          <div class='col-md-12'>
-            <center>
-              <small>
-                Made with <a href='http://www.django.org' target='_blank'>Django</a> with love from <a href="http://www.getbootstrap.com" target='_blank'>Twitter Bootstrap</a> &amp; <a href="http://www.bootswatch.com" target='_blank'>Bootswatch</a>.
-              </small>
-            </center>
-            <br/>
-          </div>
-        </div>
       </div>
-    </footer>
+    </div>
 
     <script src="http://code.jquery.com/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>

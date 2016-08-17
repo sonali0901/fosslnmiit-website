@@ -42,7 +42,21 @@ table {
 	border-spacing: 0;
 }
 
-
+* {
+    margin: 0;
+}
+html, body {
+    height: 100%;
+}
+.experiment {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -155px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+    height: 155px; /* .push must be the same height as .footer */
+}
 /* Reset End */
 .clr { clear: both;}
 body {
@@ -313,14 +327,4 @@ body {
 	-o-border-radius: 0px 8px 8px 0px;
 	-ms-border-radius: 0px 8px 8px 0px;
 	border-radius: 0px 8px 8px 0px;
-}
-.footer {
-  width: 610px;
-  margin: 0 auto;
-  color: #fff;
-  margin-top: -40px
-}
-.footer a {
-  color: #fff;
-  text-decoration: underline;
 }

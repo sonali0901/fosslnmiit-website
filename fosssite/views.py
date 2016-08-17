@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 #from django.core.context_processors import csrf
 #from django.views.decorators import csrf
 #from passlib.hash import pbkdf2_sha256
-from .forms import UserForm, UserProfileForm
+from .forms import UserForm, UserProfileForm, UserEditForm
 from .models import UserProfile
 #from django.views.generic.edit import UpdateView
 # Create your views here.
@@ -74,19 +74,23 @@ def logout(request):
 
 @login_required
 def edit_user_profile(request):
-
+	#print request.user
 	if request.method == 'POST':
 		profile_form = UserProfileForm(data=request.POST)
-		user_form = UserForm(data=request.POST)
+		user_form = UserEditForm(data=request.POST, instance=request.user)
 		if user_form.is_valid() and profile_form.is_valid():
+
 			user = user_form.save(commit=False)
 			user.email = request.POST.get('user[email]')
 			user.first_name = request.POST.get('user[fname]')
 			user.last_name = request.POST.get('user[lname]')
+			password = request.POST.get('user[password]')
+			user.set_password(password)
+			#user,username is missing here.
 
 			profile = profile_form.save(commit=False)
-			profile.save(commit=False)
-			profile.user = user
+			profile.user = request.user
+			print profile.user
 			profile.handle = request.POST.get('user[handle]')
 			profile.about_me = request.POST.get('user[about_me]')
 			profile.twitterurl = request.POST.get('user[twitter_handle]')
@@ -94,23 +98,24 @@ def edit_user_profile(request):
 			profile.lnkdnurl = request.POST.get('user[linkedin_profile]')
 			profile.githuburl = request.POST.get('user[github_profile]')
 			profile.example = request.POST.get('user[homepage]')
-			password1 = request.POST.get('user[password]')
-			password2 = request.POST.get('user[password_confirmation]')
+
+			#password2 = request.POST.get('user[password_confirmation]')
 
 
-			if (password1 == password2) and (password1 != None or ''):
-				user.set_password(user.password)
-			elif password1 == None or '':
-				pass
-			else:
-				return render(request,'fosssite/edituser.html',{error_message :"Password Must Match!"})
-			profile.save()
-			user.save()
+			profile_form.save(commit=True)
+			user_form.save(commit=True)
 			return redirect('fosssite:profileuser')
+		else:
+			print "*"*20
+			print 'New'
+			print "*"*20
+			print profile_form.errors
+			print "*"*20
+			print user_form.errors
 	else:
 		profile_form = UserProfileForm()
-		user_form = UserForm()
-	return  render(request,'fosssite/edituser.html',{'usereditform':profile_form,'userform':user_form})
+		user_form = UserEditForm(instance=request.user)
+	return  render(request,'fosssite/tempedit.html',{'profile_form':profile_form, 'user_form':user_form})
 """
 def invalid_login(request):
 	return render_to_response('fosssite/invalid_login.html')
