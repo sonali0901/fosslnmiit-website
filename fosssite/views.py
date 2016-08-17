@@ -75,8 +75,10 @@ def logout(request):
 @login_required
 def edit_user_profile(request):
 	#print request.user
+	puser = get_object_or_404(UserProfile, profileuser= request.user)
 	if request.method == 'POST':
-		profile_form = UserProfileForm(data=request.POST)
+
+		profile_form = UserProfileForm(data=request.POST, instance=puser)
 		user_form = UserEditForm(data=request.POST, instance=request.user)
 		if user_form.is_valid() and profile_form.is_valid():
 
@@ -84,13 +86,12 @@ def edit_user_profile(request):
 			user.email = request.POST.get('user[email]')
 			user.first_name = request.POST.get('user[fname]')
 			user.last_name = request.POST.get('user[lname]')
-			password = request.POST.get('user[password]')
-			user.set_password(password)
-			#user,username is missing here.
+			#password = request.POST.get('user[password]')
+			#user.set_password(password)
+			#user.username is missing here.
 
 			profile = profile_form.save(commit=False)
-			profile.user = request.user
-			print profile.user
+			profile.profileuser = request.user
 			profile.handle = request.POST.get('user[handle]')
 			profile.about_me = request.POST.get('user[about_me]')
 			profile.twitterurl = request.POST.get('user[twitter_handle]')
@@ -102,8 +103,8 @@ def edit_user_profile(request):
 			#password2 = request.POST.get('user[password_confirmation]')
 
 
-			profile_form.save(commit=True)
-			user_form.save(commit=True)
+			profile_form.save()
+			user_form.save()
 			return redirect('fosssite:profileuser')
 		else:
 			print "*"*20
@@ -113,7 +114,7 @@ def edit_user_profile(request):
 			print "*"*20
 			print user_form.errors
 	else:
-		profile_form = UserProfileForm()
+		profile_form = UserProfileForm(instance=puser)
 		user_form = UserEditForm(instance=request.user)
 	return  render(request,'fosssite/tempedit.html',{'profile_form':profile_form, 'user_form':user_form})
 """
@@ -123,3 +124,11 @@ def invalid_login(request):
 def view_profile(request):
     url = request.user.profile.url
 """
+def events(request):
+	return render(request,'fosssite/working.html',{})
+
+def contributions(request):
+	return render(request,'fosssite/working.html',{})
+
+def blog(request):
+	return render(request,'fosssite/working.html',{})

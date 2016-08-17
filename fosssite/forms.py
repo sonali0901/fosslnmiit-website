@@ -13,11 +13,10 @@ class UserProfileForm(forms.ModelForm):
 
 	class Meta:
 		model= UserProfile
-		fields = '__all__'
+		exclude= ('profileuser',)
 
 class UserEditForm(forms.ModelForm):
-	password = forms.CharField(widget=forms.PasswordInput)
 
 	class Meta:
 		model = User
-		fields = ['email','first_name','last_name','password']
+		fields = ['email','first_name','last_name']
