@@ -24,7 +24,11 @@
 	<div class='row'>
 				<div class='col-md-4'>
 					<div class='row'>
+					{% if userprofile.avatar %}
+				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="{{ userprofile.avatar.url }}" width="200" />
+				{% else %}
 				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="https://secure.gravatar.com/avatar/f340b72deeb79a210ec2138dea6e8561" width="200" />
+				{% endif %}
 				</div>
 				<div class='row'>
 				<ul class='nav navbar-nav'>

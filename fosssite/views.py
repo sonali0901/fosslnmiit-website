@@ -112,6 +112,8 @@ def edit_user_profile(request):
 			#password2 = request.POST.get('user[password_confirmation]')
 			"""
 			profile.profileuser = request.user
+			if 'avatar' in request.FILES:
+				profile.avatar = request.FILES['avatar']
 			profile_form.save()
 			user_form.save()
 			return redirect('fosssite:profileuser')
