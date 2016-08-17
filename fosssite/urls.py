@@ -11,7 +11,9 @@ urlpatterns = [
 	url(r'^profileuser/$',views.profileuser,name='profileuser'),
 	url(r'^logout/$',views.logout,name='logout'),
 	url(r'^edit_user_profile/$',views.edit_user_profile,name='edit_user_profile'),
+	url(r'^edit_user_profile/changepassword/$',views.changepassword,name='changepassword'),
 	url(r'^events/$',views.events,name='events'),
 	url(r'^contributions/$',views.contributions,name='contributions'),
 	url(r'^blog/$',views.blog,name='blog'),
+
 ]

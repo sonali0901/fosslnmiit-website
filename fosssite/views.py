@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 #from django.core.context_processors import csrf
 #from django.views.decorators import csrf
 #from passlib.hash import pbkdf2_sha256
-from .forms import UserForm, UserProfileForm, UserEditForm
-from .models import UserProfile
+from .forms import UserForm, UserProfileForm, UserEditForm, PasswordEditForm
+from .models import UserProfile, User
 #from django.views.generic.edit import UpdateView
 # Create your views here.
 
@@ -82,7 +82,7 @@ def edit_user_profile(request):
 		user_form = UserEditForm(data=request.POST, instance=request.user)
 		if user_form.is_valid() and profile_form.is_valid():
 
-			user = user_form.save(commit=False)
+			#user = user_form.save(commit=False)
 			profile = profile_form.save(commit=False)
 			"""
 			user.email = request.POST.get('user[email]')
@@ -126,6 +126,26 @@ def invalid_login(request):
 def view_profile(request):
     url = request.user.profile.url
 """
+@login_required
+def changepassword(request):
+	if request.method=='POST':
+		user = User.objects.get(username=request.user)
+		current_password = request.POST.get('current_password')
+		if user.check_password(current_password):
+			password1 = request.POST.get('password1')
+			password2 = request.POST.get('password2')
+			if password1 == password2 and len(password1) !=0:
+				user.set_password(password1)
+				user.save()
+				return redirect('fosssite:profileuser')
+			else:
+				error = 'Password Must Match!'
+				return render(request, 'fosssite/changepassword.html',{'error':error})
+		else:
+			error = 'Current Password Does not Match!'
+			return render(request,'fosssite/changepassword.html',{'error':error})
+	return render(request,'fosssite/changepassword.html')
+
 def events(request):
 	return render(request,'fosssite/working.html',{})
 
