@@ -5,13 +5,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-#from django.core.context_processors import csrf
-#from django.views.decorators import csrf
-#from passlib.hash import pbkdf2_sha256
 from .forms import UserForm, UserProfileForm, UserEditForm
 from .models import UserProfile, User
-#from django.views.generic.edit import UpdateView
-# Create your views here.
 
 def home(request):
 	if request.user.is_authenticated():
@@ -25,7 +20,6 @@ def login_user(request):
 		user = authenticate(username=username,password=password)
 		if user is not None:
 			auth.login(request, user)
-			#return render(request, 'fosssite/profileuser.html', {'username': user.username})
 			return redirect('fosssite:profileuser')
 		else:
 			return render(request, 'fosssite/login.html', {'error_message': 'Invalid login'})
@@ -45,7 +39,6 @@ def UserFormView(request):
 		username=form.cleaned_data['username']
 		password=form.cleaned_data['password']
 		#not as plain data
-		#password=pbkdf2_sha256.encrypt(text_password,rounds=12000,salt_size=32)
 		user.set_password(password)
 		user.save() #saved to database
 		user = auth.authenticate(username=username,password=password)
@@ -55,22 +48,9 @@ def UserFormView(request):
 			profile.save()
 			return redirect('fosssite:profileuser')
 	return render(request,'fosssite/signup.html',{'form':form})
-"""
-def auth_view(request):
-	username=request.POST.get('username', '')
-	password=request.POST.get('password', '')
-	user=auth.authenticate(username=username,password=password)
 
-	if user is not None:
-		auth.login(request,user)
-		return HttpResponseRedirect('/profileuser')#url in brackets
-	else:
-		return HttpResponseRedirect('/invalid')
-"""
 @login_required
 def profileuser(request):
-	#url = request.user.profile.url
-	#context_dict = {'user':request.user}
 	userprofile = get_object_or_404(UserProfile,profileuser=request.user)
 	return render(request,'fosssite/profileuser.html',{'user':request.user,'userprofile':userprofile})
 
@@ -81,7 +61,6 @@ def logout(request):
 
 @login_required
 def edit_user_profile(request):
-	#print request.user
 	puser = get_object_or_404(UserProfile, profileuser= request.user)
 	if request.method == 'POST':
 
@@ -89,49 +68,22 @@ def edit_user_profile(request):
 		user_form = UserEditForm(data=request.POST, instance=request.user)
 		if user_form.is_valid() and profile_form.is_valid():
 
-			#user = user_form.save(commit=False)
 			profile = profile_form.save(commit=False)
-			"""
-			user.email = request.POST.get('user[email]')
-			user.first_name = request.POST.get('user[fname]')
-			user.last_name = request.POST.get('user[lname]')
-			#password = request.POST.get('user[password]')
-			#user.set_password(password)
-			#user.username is missing here.
-
-			profile = profile_form.save(commit=False)
-			profile.profileuser = request.user
-			profile.handle = request.POST.get('user[handle]')
-			profile.about_me = request.POST.get('user[about_me]')
-			profile.twitterurl = request.POST.get('user[twitter_handle]')
-			profile.facebookurl = request.POST.get('user[facebook_profile]')
-			profile.lnkdnurl = request.POST.get('user[linkedin_profile]')
-			profile.githuburl = request.POST.get('user[github_profile]')
-			profile.example = request.POST.get('user[homepage]')
-
-			#password2 = request.POST.get('user[password_confirmation]')
-			"""
 			profile.profileuser = request.user
 			if 'avatar' in request.FILES:
 				profile.avatar = request.FILES['avatar']
 				print profile.avatar.size
 				if profile.avatar.size > 1048576:
 					errors= 'Max File Size is 1 MB'
-					return render(request,'fosssite/tempedit.html',{'profile_form':profile_form,'user_form':user_form,'errors':errors})
+					return render(request,'fosssite/edituser.html',{'profile_form':profile_form,'user_form':user_form,'errors':errors})
 			profile_form.save()
 			user_form.save()
 			return redirect('fosssite:profileuser')
 	else:
 		profile_form = UserProfileForm(instance=puser)
 		user_form = UserEditForm(instance=request.user)
-	return  render(request,'fosssite/tempedit.html',{'profile_form':profile_form, 'user_form':user_form})
-"""
-def invalid_login(request):
-	return render_to_response('fosssite/invalid_login.html')
+	return  render(request,'fosssite/edituser.html',{'profile_form':profile_form, 'user_form':user_form})
 
-def view_profile(request):
-    url = request.user.profile.url
-"""
 @login_required
 def changepassword(request):
 	if request.method=='POST':
@@ -148,7 +100,7 @@ def changepassword(request):
 					auth.login(request, user)
 					return redirect('fosssite:profileuser')
 			else:
-				error = 'New Password Must Match and valid!'
+				error = 'New Password Must Match or valid!'
 				return render(request, 'fosssite/changepassword.html',{'error':error})
 		else:
 			error = 'Current Password not Matched!'
