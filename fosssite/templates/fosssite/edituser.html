@@ -1,7 +1,7 @@
 {% extends 'fosssite/home.html' %}
 
 {% block profile %}
-<li><a href="{% url 'fosssite:profileuser' %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
+<li><a href="{% url 'fosssite:profileuser' name=request.user %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
 <li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 {% endblock %}
 
@@ -36,7 +36,7 @@
              <br/>
              <div class='form-group'>
                <label for="user_name">Password</label><br/><br/>
-               <a href="{% url 'fosssite:changepassword' %}">
+               <a href="{% url 'fosssite:changepassword' name=request.user %}">
                <button type="button" class="btn btn-primary">Change Password</button></a>
              </div>
              <br/>
