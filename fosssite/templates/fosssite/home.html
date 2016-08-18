@@ -28,10 +28,22 @@
             <li><a href="{% url 'fosssite:blog' %}">Blog</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            {% block profile %}
+              {% block profile %}
+
+              {% if request.user.is_authenticated %}
+              <li><a href="{% url 'fosssite:profileuser' %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
+              <li><a href="{% url 'fosssite:edit_user_profile' %}"><span class="glyphicon glyphicon-edit"></span> Edit Profile</a></li>
+              <li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+
+            {% else %}
+
             <li><a href="{% url 'fosssite:UserFormView'%}"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
             <li><a href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+            {% endif %}
+
             {% endblock %}
+
           </ul>
         </div>
       </div>

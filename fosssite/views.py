@@ -9,8 +9,6 @@ from .forms import UserForm, UserProfileForm, UserEditForm
 from .models import UserProfile, User
 
 def home(request):
-	if request.user.is_authenticated():
-		return redirect('fosssite:profileuser')
 	return render(request, 'fosssite/home.html')
 
 def login_user(request):
@@ -20,7 +18,7 @@ def login_user(request):
 		user = authenticate(username=username,password=password)
 		if user is not None:
 			auth.login(request, user)
-			return redirect('fosssite:profileuser')
+			return redirect('fosssite:home')
 		else:
 			return render(request, 'fosssite/login.html', {'error_message': 'Invalid login'})
 	return render(request,'fosssite/login.html')
@@ -46,7 +44,7 @@ def UserFormView(request):
 			auth.login(request, user)
 			profile.profileuser = request.user
 			profile.save()
-			return redirect('fosssite:profileuser')
+			return redirect('fosssite:home')
 	return render(request,'fosssite/signup.html',{'form':form})
 
 @login_required
@@ -72,7 +70,6 @@ def edit_user_profile(request):
 			profile.profileuser = request.user
 			if 'avatar' in request.FILES:
 				profile.avatar = request.FILES['avatar']
-				print profile.avatar.size
 				if profile.avatar.size > 1048576:
 					errors= 'Max File Size is 1 MB'
 					return render(request,'fosssite/edituser.html',{'profile_form':profile_form,'user_form':user_form,'errors':errors})
@@ -107,14 +104,20 @@ def changepassword(request):
 			return render(request,'fosssite/changepassword.html',{'error':error})
 	return render(request,'fosssite/changepassword.html')
 
-@login_required
+
 def events(request):
-	return render(request,'fosssite/working.html',{})
+	if request.user.is_authenticated():
+		return render(request,'fosssite/working.html',{})
+	return render(request, 'fosssite/events.html')
 
-@login_required
+
 def contributions(request):
-	return render(request,'fosssite/working.html',{})
+	if request.user.is_authenticated():
+		return render(request,'fosssite/working.html',{})
+	return render(request, 'fosssite/contributions.html')
 
-@login_required
+
 def blog(request):
-	return render(request,'fosssite/working.html',{})
+	if request.user.is_authenticated():
+		return render(request,'fosssite/working.html',{})
+	return render(request, 'fosssite/blog.html')

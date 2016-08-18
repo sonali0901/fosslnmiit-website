@@ -1,7 +1,7 @@
 {% extends 'fosssite/home.html' %}
 
 {% block profile %}
-<li><a href="{% url 'fosssite:profileuser' %}"><span class="glyphicon glyphicon-edit"></span>Profile</a></li>
+<li><a href="{% url 'fosssite:profileuser' %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
 <li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 {% endblock %}
 
