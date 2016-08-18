@@ -72,7 +72,6 @@ def edit_user_profile(request):
 			profile.profileuser = request.user
 			if 'avatar' in request.FILES:
 				profile.avatar = request.FILES['avatar']
-				print profile.avatar.size
 				if profile.avatar.size > 1048576:
 					errors= 'Max File Size is 1 MB'
 					return render(request,'fosssite/edituser.html',{'profile_form':profile_form,'user_form':user_form,'errors':errors})
