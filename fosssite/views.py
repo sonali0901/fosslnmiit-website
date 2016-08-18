@@ -9,8 +9,6 @@ from .forms import UserForm, UserProfileForm, UserEditForm
 from .models import UserProfile, User
 
 def home(request):
-	if request.user.is_authenticated():
-		return redirect('fosssite:profileuser')
 	return render(request, 'fosssite/home.html')
 
 def login_user(request):
@@ -20,7 +18,7 @@ def login_user(request):
 		user = authenticate(username=username,password=password)
 		if user is not None:
 			auth.login(request, user)
-			return redirect('fosssite:profileuser')
+			return redirect('fosssite:home')
 		else:
 			return render(request, 'fosssite/login.html', {'error_message': 'Invalid login'})
 	return render(request,'fosssite/login.html')
@@ -46,11 +44,11 @@ def UserFormView(request):
 			auth.login(request, user)
 			profile.profileuser = request.user
 			profile.save()
-			return redirect('fosssite:profileuser')
+			return redirect('fosssite:home')
 	return render(request,'fosssite/signup.html',{'form':form})
 
 @login_required
-def profileuser(request):
+def profileuser(request, name):
 	userprofile = get_object_or_404(UserProfile,profileuser=request.user)
 	return render(request,'fosssite/profileuser.html',{'user':request.user,'userprofile':userprofile})
 
@@ -60,7 +58,7 @@ def logout(request):
 	return HttpResponseRedirect('/')
 
 @login_required
-def edit_user_profile(request):
+def edit_user_profile(request, name):
 	puser = get_object_or_404(UserProfile, profileuser= request.user)
 	if request.method == 'POST':
 
@@ -77,14 +75,14 @@ def edit_user_profile(request):
 					return render(request,'fosssite/edituser.html',{'profile_form':profile_form,'user_form':user_form,'errors':errors})
 			profile_form.save()
 			user_form.save()
-			return redirect('fosssite:profileuser')
+			return redirect('fosssite:profileuser',name=request.user)
 	else:
 		profile_form = UserProfileForm(instance=puser)
 		user_form = UserEditForm(instance=request.user)
 	return  render(request,'fosssite/edituser.html',{'profile_form':profile_form, 'user_form':user_form})
 
 @login_required
-def changepassword(request):
+def changepassword(request, name):
 	if request.method=='POST':
 		user = User.objects.get(username=request.user)
 		current_password = request.POST.get('current_password')
@@ -97,7 +95,7 @@ def changepassword(request):
 				user = auth.authenticate(username=user.username,password=password1)
 				if user is not None:
 					auth.login(request, user)
-					return redirect('fosssite:profileuser')
+					return redirect('fosssite:profileuser', name=request.user)
 			else:
 				error = 'New Password Must Match or valid!'
 				return render(request, 'fosssite/changepassword.html',{'error':error})
@@ -106,14 +104,20 @@ def changepassword(request):
 			return render(request,'fosssite/changepassword.html',{'error':error})
 	return render(request,'fosssite/changepassword.html')
 
-@login_required
+
 def events(request):
-	return render(request,'fosssite/working.html',{})
+	if request.user.is_authenticated():
+		return render(request,'fosssite/working.html',{})
+	return render(request, 'fosssite/events.html')
 
-@login_required
+
 def contributions(request):
-	return render(request,'fosssite/working.html',{})
+	if request.user.is_authenticated():
+		return render(request,'fosssite/working.html',{})
+	return render(request, 'fosssite/contributions.html')
 
-@login_required
+
 def blog(request):
-	return render(request,'fosssite/working.html',{})
+	if request.user.is_authenticated():
+		return render(request,'fosssite/working.html',{})
+	return render(request, 'fosssite/blog.html')
