@@ -5,6 +5,12 @@ from .models import UserProfile
 class UserForm(forms.ModelForm):
 	password=forms.CharField(widget=forms.PasswordInput)
 
+	def clean_email(self):
+		data = self.cleaned_data['email']
+		if "@lnmiit.ac.in" not in data:   # any check you need
+			raise forms.ValidationError("Must be a college domain")
+		return data
+
 	class Meta:
 		model=User
 		fields=['username','email','first_name','last_name','password']
