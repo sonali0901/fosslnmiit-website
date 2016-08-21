@@ -1,0 +1,18 @@
+{# test template #}
+    <!-- code for displaying success or error message in template -->
+    {% if messages %}
+
+        {% for message in messages %}
+         {{ message }}
+        {% endfor %}
+        {% endif %}
+
+
+    <!-- Form rendering code for template -->
+    <form action="" method="post">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <input type="submit" value="Submit" />
+    </form>

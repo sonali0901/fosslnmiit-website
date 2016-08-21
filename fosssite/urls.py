@@ -15,5 +15,4 @@ urlpatterns = [
 	url(r'^events/$',views.events,name='events'),
 	url(r'^contributions/$',views.contributions,name='contributions'),
 	url(r'^blog/$',views.blog,name='blog'),
-
 ]
