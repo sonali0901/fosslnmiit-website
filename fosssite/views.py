@@ -20,7 +20,7 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from foss.settings import DEFAULT_FROM_EMAIL
 from django.views.generic import *
-from .forms import PasswordResetRequestForm, SetPasswordForm
+#from .forms import PasswordResetRequestForm, SetPasswordForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models.query_utils import Q
@@ -54,6 +54,13 @@ def UserFormView(request):
 		user.last_name = form.data['lname']
 		username=form.cleaned_data['username']
 		password=form.cleaned_data['password']
+		email = form.cleaned_data['email']
+		try:
+			useremail = User.objects.get(email=email)
+		except User.DoesNotExist:
+			useremail = None
+		if useremail is not None:
+			return render(request,'fosssite/signup.html',{'msg':'Email Already Exists!'})
 		#not as plain data
 		user.set_password(password)
 		user.save() #saved to database
@@ -146,7 +153,10 @@ def forgot_password(request):
 			return render(request, 'fosssite/forgotpassword.html',{'error':'Please Enter Credentials!'})
 		else:
 			data = request.POST.get('email')
-			user =User.objects.get(email=data)
+			try:
+				user = User.objects.get(email=data)
+			except User.DoesNotExist:
+				user = None
 			#user= User.objects.filter(email=data)
 			if user is not None:
 				c = {

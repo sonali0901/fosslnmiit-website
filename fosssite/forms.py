@@ -23,7 +23,7 @@ class UserEditForm(forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ['email','first_name','last_name']
-
+"""
 class PasswordResetRequestForm(forms.Form):
     email_or_username = forms.CharField(label=("Email Or Username"), max_length=254)
 
@@ -46,3 +46,4 @@ class SetPasswordForm(forms.Form):
                     code='password_mismatch',
                     )
         return password2
+"""

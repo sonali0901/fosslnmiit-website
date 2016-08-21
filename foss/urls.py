@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 #from fosssite.views import ResetPasswordRequestView, PasswordResetConfirmView
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^superuser/admin/', admin.site.urls),
     url(r'', include('fosssite.urls')),
     #url(r'^accounts/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
   #'django.contrib.auth.views.password_reset_confirm',
