@@ -15,4 +15,6 @@ urlpatterns = [
 	url(r'^events/$',views.events,name='events'),
 	url(r'^contributions/$',views.contributions,name='contributions'),
 	url(r'^blog/$',views.blog,name='blog'),
+	url(r'^forgot_password/$', views.forgot_password, name='forgot_password'),
+	url(r'^confirm_password/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', views.confirm_password, name='confirm_password'),
 ]

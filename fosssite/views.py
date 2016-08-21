@@ -140,8 +140,69 @@ def blog(request):
 		return render(request,'fosssite/working.html',{})
 	return render(request, 'fosssite/blog.html')
 
+def forgot_password(request):
+	if request.method == 'POST':
+		if not request.POST.get('email'):
+			return render(request, 'fosssite/forgotpassword.html',{'error':'Please Enter Credentials!'})
+		else:
+			data = request.POST.get('email')
+			user =User.objects.get(email=data)
+			#user= User.objects.filter(email=data)
+			if user is not None:
+				c = {
+					'email': user.email,
+					'domain': '127.0.0.1:8000', #or your domain
+					'site_name': 'FossLnmiit',
+					'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+					'user': user,
+					'token': default_token_generator.make_token(user),
+					'protocol': 'http',
+					}
+				subject_template_name='email/password_reset_subject.txt'
+				email_template_name='email/password_reset_email.html'
+				subject = loader.render_to_string(subject_template_name, c)
+				# Email subject *must not* contain newlines
+				subject = ''.join(subject.splitlines())
+				email = loader.render_to_string(email_template_name, c)
+				send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
+				message = "An email has been sent to " + data +". Please check your inbox to continue reseting password."
+				return render(request, 'fosssite/login.html',{'message':message})
+			else:
+				error = "No user is associated with this Email Address."
+				return render(request,'fosssite/forgotpassword.html',{'error':error})
+	return render(request,'fosssite/forgotpassword.html',{})
 
+def confirm_password(request, uidb64=None, token=None):
+	assert uidb64 is not None and token is not None  # checked by URLconf
+	try:
+		uid = urlsafe_base64_decode(uidb64)
+		user = User.objects.get(pk=uid)
+	except:
+		user = None
 
+	if user is not None:
+		if request.method == 'POST':
+			if default_token_generator.check_token(user, token):
+				password1 = request.POST.get('password1')
+				password2 = request.POST.get('password2')
+				if password1 == password2 and len(password1) !=0:
+					user.set_password(password1)
+					user.save()
+					messages.success(request,'Password Changed!')
+					return redirect('fosssite:login_user')
+				else:
+					messages.success(request,'Both Passwords Must Match. Please try again!')
+					return redirect('fosssite:confirm_password',uidb64=uidb64, token=token)
+			else:
+				messages.success(request,"The reset password link is no longer valid.")
+				return redirect('fosssite:forgot_password')
+		else:
+			return render(request, 'fosssite/confirm_password.html',{})
+	else:
+		messages.success(request,"The reset password link is no longer valid.")
+		return redirect('fosssite:forgot_password')
+
+"""
 class ResetPasswordRequestView(FormView):
     template_name = "account/test_template.html"    #code for template is given below the view's code
     success_url = '/login'
@@ -226,10 +287,10 @@ class PasswordResetConfirmView(FormView):
     form_class = SetPasswordForm
 
     def post(self, request, uidb64=None, token=None, *arg, **kwargs):
-        """
+
         View that checks the hash in a password reset link and presents a
         form for entering a new password.
-        """
+
         UserModel = get_user_model()
         form = self.form_class(request.POST)
         assert uidb64 is not None and token is not None  # checked by URLconf
@@ -252,3 +313,4 @@ class PasswordResetConfirmView(FormView):
         else:
             messages.error(request,'The reset password link is no longer valid.')
             return self.form_invalid(form)
+"""
