@@ -100,12 +100,13 @@ def confirm_email(request, uidb64=None, token=None):
 		if default_token_generator.check_token(user, token):
 			user.is_active = True
 			user.save()
+			messages.success(request, "Email Address Verified! Please Login to continue !")
 			return redirect('fosssite:home')
 		else:
-			messages.success(request,"The reset password link is no longer valid.")
+			messages.success(request,"The email verification link is no longer valid. Try again!")
 			return redirect('fosssite:signup_email')
 	else:
-		messages.success(request,"The reset password link is no longer valid.")
+		messages.success(request,"The email verification link is no longer valid. Try again!")
 		return redirect('fosssite:signup_email')
 
 def UserFormView(request):
@@ -151,7 +152,7 @@ def UserFormView(request):
 		subject = ''.join(subject.splitlines())
 		email = loader.render_to_string(email_template_name, c)
 		send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
-		messages.success(request,"An email has been sent to " + user.email +". Please check your inbox to continue reseting password.")
+		messages.success(request,"An email has been sent to " + user.email +". Please check your inbox to signup.")
 		return redirect('fosssite:home')
 	return render(request,'fosssite/signup.html',{'form':form})
 
@@ -259,7 +260,7 @@ def forgot_password(request):
 				email = loader.render_to_string(email_template_name, c)
 				send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
 				messages.success(request,"An email has been sent to " + data +". Please check your inbox to continue reseting password.")
-				return redirect('fosssite:login')
+				return redirect('fosssite:home')
 			else:
 				error = "No user is associated with this Email Address."
 				return render(request,'fosssite/forgotpassword.html',{'error':error})
@@ -287,12 +288,12 @@ def confirm_password(request, uidb64=None, token=None):
 					messages.success(request,'Both Passwords Must Match. Please try again!')
 					return redirect('fosssite:confirm_password',uidb64=uidb64, token=token)
 			else:
-				messages.success(request,"The reset password link is no longer valid.")
+				messages.success(request,"The reset password link is no longer valid. Try again!")
 				return redirect('fosssite:forgot_password')
 		else:
 			return render(request, 'fosssite/confirm_password.html',{})
 	else:
-		messages.success(request,"The reset password link is no longer valid.")
+		messages.success(request,"The reset password link is no longer valid. Try again!")
 		return redirect('fosssite:forgot_password')
 
 """
@@ -404,6 +405,6 @@ class PasswordResetConfirmView(FormView):
                 messages.error(request, 'Password reset has not been unsuccessful.')
                 return self.form_invalid(form)
         else:
-            messages.error(request,'The reset password link is no longer valid.')
+            messages.error(request,'The reset password link is no longer valid. Try again!')
             return self.form_invalid(form)
 """
