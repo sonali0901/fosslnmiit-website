@@ -33,14 +33,80 @@ def login_user(request):
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
-		user = authenticate(username=username,password=password)
-		if user is not None:
-			auth.login(request, user)
-			return redirect('fosssite:home')
-		else:
+		try:
+			user = User.objects.get(username=username)
+		except User.DoesNotExist:
+			user = None
+		print user
+		try:
+			if user.is_active:
+				user = authenticate(username=username,password=password)
+				if user is not None:
+					auth.login(request, user)
+					return redirect('fosssite:home')
+				else:
+					return render(request, 'fosssite/login.html', {'error_message': 'Invalid login'})
+			else:
+				return redirect('fosssite:signup_email')
+		except:
 			return render(request, 'fosssite/login.html', {'error_message': 'Invalid login'})
 	return render(request,'fosssite/login.html')
 
+def signup_email(request):
+	if request.method == 'POST':
+		if not request.POST.get('signup_email'):
+			return render(request, 'fosssite/signup_email.html',{'error':'Please Enter Credentials!'})
+		else:
+			data = request.POST.get('signup_email')
+
+		try:
+			user = User.objects.get(email=data)
+		except User.DoesNotExist:
+			user = None
+		#user= User.objects.filter(email=data)
+		if user is not None:
+			c = {
+				'email': user.email,
+				'domain': '127.0.0.1:8000', #or your domain
+				'site_name': 'FossLnmiit',
+				'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+				'user': user,
+				'token': default_token_generator.make_token(user),
+				'protocol': 'http',
+				}
+			subject_template_name='signup/email_confirm_subject.txt'
+			email_template_name='signup/email_confirm_email.html'
+			subject = loader.render_to_string(subject_template_name, c)
+			# Email subject *must not* contain newlines
+			subject = ''.join(subject.splitlines())
+			email = loader.render_to_string(email_template_name, c)
+			send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
+			messages.success(request,"An email has been sent to " + data +". Please check your inbox to signup.")
+			return redirect('fosssite:home')
+		else:
+			error = "No user is associated with this Email Address."
+			return render(request,'fosssite/signup_email.html',{'error':error})
+	return render(request, 'fosssite/signup_email.html',{})
+
+def confirm_email(request, uidb64=None, token=None):
+	assert uidb64 is not None and token is not None  # checked by URLconf
+	try:
+		uid = urlsafe_base64_decode(uidb64)
+		user = User.objects.get(pk=uid)
+	except:
+		user = None
+
+	if user is not None:
+		if default_token_generator.check_token(user, token):
+			user.is_active = True
+			user.save()
+			return redirect('fosssite:home')
+		else:
+			messages.success(request,"The reset password link is no longer valid.")
+			return redirect('fosssite:signup_email')
+	else:
+		messages.success(request,"The reset password link is no longer valid.")
+		return redirect('fosssite:signup_email')
 
 def UserFormView(request):
 	form=UserForm(request.POST or None)
@@ -55,6 +121,7 @@ def UserFormView(request):
 		username=form.cleaned_data['username']
 		password=form.cleaned_data['password']
 		email = form.cleaned_data['email']
+
 		try:
 			useremail = User.objects.get(email=email)
 		except User.DoesNotExist:
@@ -63,13 +130,29 @@ def UserFormView(request):
 			return render(request,'fosssite/signup.html',{'msg':'Email Already Exists!'})
 		#not as plain data
 		user.set_password(password)
+		user.is_active = False
 		user.save() #saved to database
-		user = auth.authenticate(username=username,password=password)
-		if user is not None:
-			auth.login(request, user)
-			profile.profileuser = request.user
-			profile.save()
-			return redirect('fosssite:home')
+		profile.profileuser = user
+		profile.save()
+
+		c = {
+			'email': user.email,
+			'domain': '127.0.0.1:8000', #or your domain
+			'site_name': 'FossLnmiit',
+			'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+			'user': user,
+			'token': default_token_generator.make_token(user),
+			'protocol': 'http',
+			}
+		subject_template_name='signup/email_confirm_subject.txt'
+		email_template_name='signup/email_confirm_email.html'
+		subject = loader.render_to_string(subject_template_name, c)
+		# Email subject *must not* contain newlines
+		subject = ''.join(subject.splitlines())
+		email = loader.render_to_string(email_template_name, c)
+		send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
+		messages.success(request,"An email has been sent to " + user.email +". Please check your inbox to continue reseting password.")
+		return redirect('fosssite:home')
 	return render(request,'fosssite/signup.html',{'form':form})
 
 @login_required
@@ -175,8 +258,8 @@ def forgot_password(request):
 				subject = ''.join(subject.splitlines())
 				email = loader.render_to_string(email_template_name, c)
 				send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
-				message = "An email has been sent to " + data +". Please check your inbox to continue reseting password."
-				return render(request, 'fosssite/login.html',{'message':message})
+				messages.success(request,"An email has been sent to " + data +". Please check your inbox to continue reseting password.")
+				return redirect('fosssite:login')
 			else:
 				error = "No user is associated with this Email Address."
 				return render(request,'fosssite/forgotpassword.html',{'error':error})

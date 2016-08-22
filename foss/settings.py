@@ -35,8 +35,9 @@ SERVER_EMAIL = 'garg95hitesh@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'garg95hitesh@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'kitretsuhitesh@14051995'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 
 # Application definition
 
@@ -49,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'fosssite',
 ]
+
+
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,6 +82,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'foss.wsgi.application'
 
 
@@ -88,8 +92,8 @@ WSGI_APPLICATION = 'foss.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'foss',
-        'USER': 'admin',
+        'NAME': 'fosslnmiit',
+        'USER': 'fosslnmiit',
         'PASSWORD': 'fosslnm',
         'HOST': 'localhost',
         'PORT': '',

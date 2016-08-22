@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from django import forms
 from .models import UserProfile
 
+LNMIIT_DOMAIN="@lnmiit.ac.in"
+
+
 class UserForm(forms.ModelForm):
 	password=forms.CharField(widget=forms.PasswordInput)
 
