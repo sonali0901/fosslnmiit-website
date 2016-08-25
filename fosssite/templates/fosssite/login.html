@@ -1,6 +1,9 @@
 {% extends 'fosssite/home.html' %}
 {% block profile %}
-<li><a href="{% url 'fosssite:UserFormView'%}"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
+  <li class="main-nav-link">
+    <a class="nav-link" href="{% url 'fosssite:UserFormView'%}">
+    <span class="glyphicon glyphicon-user"></span>SIGN UP</a>
+  </li>
 {% endblock %}
 
 {% block content %}

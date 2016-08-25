@@ -2,9 +2,8 @@
 {% load staticfiles %}
 
 {% block profile %}
-<li><a href="{% url 'fosssite:UserFormView' %}"><span class="glyphicon glyphicon-user"></span> Signup</a></li>
-<li><a href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-
+<li class="main-nav-link"><a class="nav-link" href="{% url 'fosssite:UserFormView'%}"><span class="glyphicon glyphicon-user"></span>SIGN UP</a></li>
+<li class="main-nav-link"><a class="nav-link" href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> LOGIN</a></li>
 {% endblock %}
 
 {% block content %}
