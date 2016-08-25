@@ -1,4 +1,5 @@
 {% extends 'fosssite/home.html' %}
+{% load staticfiles %}
 {% block profile %}
 <li><a href="{% url 'fosssite:profileuser' name=request.user %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
 <li><a href="{% url 'fosssite:edit_user_profile' name=request.user %}"><span class="glyphicon glyphicon-edit"></span> Edit Profile</a></li>
