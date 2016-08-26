@@ -1,37 +1,30 @@
 {% load staticfiles %}
 <!doctype html>
 <html lang="en">
-  {%load staticfiles%}
+{%load staticfiles%}
 
-  <head>
-    <title>fossLNMIIT</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.2/paper/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<head>
+  <title>fossLNMIIT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.2/paper/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
     <![endif]-->
-  </head>
-   
-      
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
-     
-      <meta property="og:type" content="website">
-     
-      
-      <meta name="csrf-param" content="authenticity_token" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
+<meta property="og:type" content="website">
+<meta name="csrf-param" content="authenticity_token" />
 <meta name="csrf-token" content="2601A6c+8VygKRA4cU/Zm4Mc0odU2AD9nLZDkvk4QaJ7KhWYwckyo5VEbVMap1G/Q6CWykrD5IcZQFYyJ5r0+A==" />
-      
-      <meta name="apple-itunes-app" content="app-id=768163905"></meta>
-      <link rel="stylesheet" media="all" href="https://d79fch13sldby.cloudfront.net/assets/v5layout-c6d415a690170c151b86d293260a080a.css" />
-      <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900,100' rel='stylesheet' type='text/css'>
+<meta name="apple-itunes-app" content="app-id=768163905"></meta>
+<link rel="stylesheet" media="all" href="https://d79fch13sldby.cloudfront.net/assets/v5layout-c6d415a690170c151b86d293260a080a.css" />
+<link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900,100' rel='stylesheet' type='text/css'>
       <!-- <link href='https://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
       <!--[if gte IE 9]>
       <style type="text/css">
@@ -40,14 +33,12 @@
           }
       </style>
       <![endif]-->
-    </head>
+</head>
 
-  <body>
-
-
-      <header>
-  <nav class="navbar navbar-default navbar-fixed-top " role="navigation">
-    <div class="container">
+<body>
+  <header>
+    <nav class="navbar navbar-default navbar-fixed-top " role="navigation">
+      <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -55,7 +46,7 @@
                 <span class="icon-bar top-bar"></span>
                 <span class="icon-bar middle-bar"></span>
                 <span class="icon-bar bottom-bar"></span>
-            </button>
+          </button>
         </div>
         
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -73,16 +64,15 @@
             <li class="main-nav-link hidden-sm hidden-xs">
               <a class="nav-link" href="{% url 'fosssite:blog' %}">BLOG</a>
             </li>
-            </ul>
-             <ul class="nav navbar-nav navbar-right">
-              {% block profile %}
-
-              {% if request.user.is_authenticated %}
-              <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          {% block profile %}
+          {% if request.user.is_authenticated %}
+          <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
             <li>
              	 <a class="nav-link"  href="{% url 'fosssite:profileuser' name=request.user %}">
              	 	<span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a>
-			</li>
+            </li>
             <li>
               	<a class="nav-link" href="{% url 'fosssite:edit_user_profile' name=request.user %}">
               		<span class="glyphicon glyphicon-edit"></span> Edit Profile</a>
@@ -91,9 +81,9 @@
               	<a class="nav-link" href="{% url 'fosssite:logout' %}">
               		<span class="glyphicon glyphicon-log-out"></span> Logout</a>
             </li>
-
+          </ul>
             {% else %}
-
+             <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
             <li class="main-nav-link">
             	<a class="nav-link" href="{% url 'fosssite:UserFormView'%}">
             	<span class="glyphicon glyphicon-user"></span>SIGN UP</a>
@@ -101,25 +91,30 @@
             <li class="main-nav-link">
             	<a class="nav-link" href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> LOGIN</a>
             </li>
+            </ul>
 
             {% endif %}
 
             {% endblock %}
-
-          </ul>
 
           
         </div><!-- /.navbar-collapse -->
     </div>
   </nav>
 </header>
-    {% block content %}
+{% block content %}
+<div class='image' style="height:390px;" ">
+  
+     <img src="{% static 'assets/images/mix-gallery10.jpg' %}" style="width: 100%;"/>
+  
+</div>
+    
+
 
       {% endblock %}
 
       <div class="push"></div>
-      </div>
-    <div class="footer">
+    <div class="footer" style="bottom:20px;">
       <div class='container'>
         <div class='row'>
           <hr/>
@@ -127,7 +122,7 @@
             <img alt="fosslnmiit-logo" src="{% static 'assets/foss.png' %}" height="40" width="40" /> <br/>
           </div>
           <div class='col-md-7'>
-                  Made with <a href='http://www.django.org' target='_blank'>Django</a> with love from <a href="http://www.getbootstrap.com" target='_blank'>Twitter Bootstrap</a> &amp; <a href="http://www.bootswatch.com" target='_blank'>Bootswatch</a>.
+                  Made with <a href='http://www.django.org' target='_blank' style="color:red">Django</a> with love from <a href="http://www.getbootstrap.com" target='_blank' style="color:red">Twitter Bootstrap</a> &amp; <a href="http://www.bootswatch.com" target='_blank' style="color:red">Bootswatch</a>.
 
           </div>
           <div class='col-md-3'>
