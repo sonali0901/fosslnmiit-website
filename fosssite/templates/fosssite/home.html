@@ -51,38 +51,38 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-left">
-            	<li class="main-nav-link hidden-sm hidden-xs ">
+            	<li class="main-nav-link ">
           	  		<a class="nav-link" href="{% url 'fosssite:home' %}">HOME</a>
             	</li>
-            	<li class="main-nav-link hidden-sm hidden-xs">
+            	<li class="main-nav-link s">
               		<a class="nav-link" href="{% url 'fosssite:events' %}">EVENTS</a>
             	</li>
-            	<li class="main-nav-link hidden-sm hidden-xs">
+            	<li class="main-nav-link ">
             		<a class="nav-link" href="{% url 'fosssite:contributions' %}">CONTRIBUTIONS</a>
            		</li>
-            	<li class="main-nav-link hidden-sm hidden-xs">
+            	<li class="main-nav-link ">
               		<a class="nav-link" href="{% url 'fosssite:blog' %}">BLOG</a>
             	</li>
           	</ul>
           	<ul class="nav navbar-nav navbar-right">
           	{% block profile %}
           	{% if request.user.is_authenticated %}
-          	<ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
-            	<li>
+          	<ul class="nav navbar-nav navbar-right ">
+            	<li class="main-nav-link">
              		<a class="nav-link"  href="{% url 'fosssite:profileuser' name=request.user %}">
              	 	<span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a>
            		</li>
-           		<li>
+           		<li class="main-nav-link">
               		<a class="nav-link" href="{% url 'fosssite:edit_user_profile' name=request.user %}">
               		<span class="glyphicon glyphicon-edit"></span> Edit Profile</a>
            		</li>
-           		<li>
+           		<li class="main-nav-link">
              		<a class="nav-link" href="{% url 'fosssite:logout' %}">
               		<span class="glyphicon glyphicon-log-out"></span> Logout</a>
            		</li>
           	</ul>
             {% else %}
-           	<ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+           	<ul class="nav navbar-nav navbar-right ">
             	<li class="main-nav-link">
             		<a class="nav-link" href="{% url 'fosssite:UserFormView'%}">
             		<span class="glyphicon glyphicon-user"></span>SIGN UP</a>
