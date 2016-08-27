@@ -6,7 +6,6 @@
 <head>
   <title>fossLNMIIT</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.2/paper/bootstrap.min.css">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -41,69 +40,69 @@
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar top-bar"></span>
-                <span class="icon-bar middle-bar"></span>
-                <span class="icon-bar bottom-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
           </button>
         </div>
         
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
-          <ul class="nav navbar-nav navbar-left">
-            <li class="main-nav-link hidden-sm hidden-xs ">
-          	  <a class="nav-link" href="{% url 'fosssite:home' %}">HOME</a>
-            </li>
-            <li class="main-nav-link hidden-sm hidden-xs">
-              <a class="nav-link" href="{% url 'fosssite:events' %}">EVENTS</a></a>
-            </li>
-            <li class="main-nav-link hidden-sm hidden-xs">
-              <a class="nav-link" href="{% url 'fosssite:contributions' %}">CONTRIBUTIONS</a>
-            </li>
-            <li class="main-nav-link hidden-sm hidden-xs">
-              <a class="nav-link" href="{% url 'fosssite:blog' %}">BLOG</a>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-          {% block profile %}
-          {% if request.user.is_authenticated %}
-          <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
-            <li>
-             	 <a class="nav-link"  href="{% url 'fosssite:profileuser' name=request.user %}">
+			<ul class="nav navbar-nav navbar-left">
+            	<li class="main-nav-link hidden-sm hidden-xs ">
+          	  		<a class="nav-link" href="{% url 'fosssite:home' %}">HOME</a>
+            	</li>
+            	<li class="main-nav-link hidden-sm hidden-xs">
+              		<a class="nav-link" href="{% url 'fosssite:events' %}">EVENTS</a>
+            	</li>
+            	<li class="main-nav-link hidden-sm hidden-xs">
+            		<a class="nav-link" href="{% url 'fosssite:contributions' %}">CONTRIBUTIONS</a>
+           		</li>
+            	<li class="main-nav-link hidden-sm hidden-xs">
+              		<a class="nav-link" href="{% url 'fosssite:blog' %}">BLOG</a>
+            	</li>
+          	</ul>
+          	<ul class="nav navbar-nav navbar-right">
+          	{% block profile %}
+          	{% if request.user.is_authenticated %}
+          	<ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+            	<li>
+             		<a class="nav-link"  href="{% url 'fosssite:profileuser' name=request.user %}">
              	 	<span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a>
-            </li>
-            <li>
-              	<a class="nav-link" href="{% url 'fosssite:edit_user_profile' name=request.user %}">
+           		</li>
+           		<li>
+              		<a class="nav-link" href="{% url 'fosssite:edit_user_profile' name=request.user %}">
               		<span class="glyphicon glyphicon-edit"></span> Edit Profile</a>
-            </li>
-            <li>
-              	<a class="nav-link" href="{% url 'fosssite:logout' %}">
+           		</li>
+           		<li>
+             		<a class="nav-link" href="{% url 'fosssite:logout' %}">
               		<span class="glyphicon glyphicon-log-out"></span> Logout</a>
-            </li>
-          </ul>
+           		</li>
+          	</ul>
             {% else %}
-             <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
-            <li class="main-nav-link">
-            	<a class="nav-link" href="{% url 'fosssite:UserFormView'%}">
-            	<span class="glyphicon glyphicon-user"></span>SIGN UP</a>
-            </li>
-            <li class="main-nav-link">
-            	<a class="nav-link" href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> LOGIN</a>
-            </li>
+           	<ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+            	<li class="main-nav-link">
+            		<a class="nav-link" href="{% url 'fosssite:UserFormView'%}">
+            		<span class="glyphicon glyphicon-user"></span>SIGN UP</a>
+            	</li>
+            	<li class="main-nav-link">
+            		<a class="nav-link" href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> LOGIN</a>
+            	</li>
             </ul>
 
             {% endif %}
 
             {% endblock %}
-
+            </ul>
           
         </div><!-- /.navbar-collapse -->
     </div>
   </nav>
 </header>
 {% block content %}
-<div class='image' style="height:390px;" ">
+<div class='image' style="height:500px;" ">
   
      <img src="{% static 'assets/images/mix-gallery10.jpg' %}" style="width: 100%;"/>
   
