@@ -35,6 +35,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'fosslnmiit@gmail.com'
 EMAIL_HOST_PASSWORD = ''
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_DEBUG = False
 
 # Application definition
 
@@ -88,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'fosslnmiit8postgres8',
         'USER': 'fosslnmiit_8',
-        'PASSWORD': 'lnmfoss8',
+        'PASSWORD': '',
         'HOST': 'postgresql-mumbai-test.cxuma2dcra76.ap-south-1.rds.amazonaws.com',
         'PORT': '5432',
     }
