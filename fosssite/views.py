@@ -122,7 +122,11 @@ def UserFormView(request):
 		username=form.cleaned_data['username']
 		password=form.cleaned_data['password']
 		email = form.cleaned_data['email']
-		profile.is_public = form.data['is_public']
+		try:
+			profile.is_public = form.data['is_public']
+		except:
+			profile.is_public = False	
+
 		try:
 			useremail = User.objects.get(email=email)
 		except User.DoesNotExist:
