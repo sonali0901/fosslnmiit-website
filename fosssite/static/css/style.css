@@ -69,6 +69,7 @@ body {
 }
 #wrapper {
 	margin: 70px auto;
+    margin-top: 100px;
 	width: 400px;
 	height:650px;
 	background: #F0F0F0;
@@ -91,13 +92,15 @@ body {
 }
 .btn{
   height:50px;
-  width:40%;
+  width:50%;
+  text-align: center;
+  vertical-align: middle;
   border-radius: 4px;
     moz-border-radius: 4px;
     webkit-border-radius: 4px;
   padding:20px;
-  margin-top: 10px;
-  margin-left: 60px;
+  margin-top: 30px;
+  margin-left: 50px;
   margin-bottom:20px;
   background-color:#d6d6c2;
   color:#ff6600;
@@ -108,7 +111,7 @@ body {
 }
 
 .btn:hover{
-  background:#ff944d;
+  background:#ffe0cc;
   color:#ff6600;
   
 }

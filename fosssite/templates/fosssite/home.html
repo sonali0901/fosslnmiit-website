@@ -85,30 +85,6 @@
               		<span class="glyphicon glyphicon-log-out"></span> Logout</a>
            		</li>
           	</ul>
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
-          </div>
-
-        <div class="collapse navbar-collapse" id="navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li {% block acitve1 %}class="active"{% endblock %}><a href="{% url 'fosssite:home' %}">Home</a></li>
-            <li {% block acitve2 %}{% endblock %}><a href="{% url 'fosssite:events' %}">Events</a></li>
-            <li {% block acitve3 %}{% endblock %}><a href="{% url 'fosssite:contributions' %}">Contributions</a></li>
-            <li {% block acitve4 %}{% endblock %}><a href="{% url 'fosssite:blog' %}">Blog</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-              {% block profile %}
-
-              {% if request.user.is_authenticated %}
-              <li><a href="{% url 'fosssite:profileuser' name=request.user %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
-              <li><a href="{% url 'fosssite:edit_user_profile' name=request.user %}"><span class="glyphicon glyphicon-edit"></span> Edit Profile</a></li>
-              <li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             {% else %}
            	<ul class="nav navbar-nav navbar-right ">
             	<li class="main-nav-link">
@@ -129,12 +105,13 @@
     </div>
   </nav>
 </header>
-{% block content %}
+{% block image %}
 <div class='image' style="height:500px;" ">
   
      <img src="{% static 'assets/images/mix-gallery10.jpg' %}" style="width: 100%;"/>
   
 </div>
+{% endblock %}
     {% block content %}
     <div class='row'>
       <div  style="margin-top: 150px;margin-left: 350px;">
