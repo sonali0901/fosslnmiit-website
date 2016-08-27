@@ -50,6 +50,15 @@
     </div>
 
     {% block content %}
+    <div class='row'>
+      <div  style="margin-top: 150px;margin-left: 350px;">
+          {% if messages %}
+              {% for message in messages %}
+               <p class="text-success">{{ message }}</p>
+              {% endfor %}
+          {% endif %}
+      </div>
+    </div>
 
       {% endblock %}
 

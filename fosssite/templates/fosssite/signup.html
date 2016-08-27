@@ -17,6 +17,9 @@
                                       <p class="text-danger">{{ form.username.errors.as_text  }}</p>
                                       <input name="username" type="text" placeholder="Username" size="40" onClick="border: 1px solid #30a8da;" id="username"/>
                                       <p class="text-danger">{{ form.email.errors.as_text  }}</p>
+                                      {% if msg %}
+                                      <p class="text-danger">{{ msg  }}</p>
+                                      {% endif %}
                                       <input name="email" type="text" placeholder="Email ID" size="40" onClick="border: 1px solid #30a8da;" id="mail"/>
                                       <p class="text-danger">{{ form.password.errors.as_text  }}</p>
                                       <input name="password" type="password" placeholder="Password" size="40" onClick="border: 1px solid #30a8da;" id="password"/>
