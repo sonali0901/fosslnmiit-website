@@ -4,11 +4,11 @@ got to :- `https://www.google.com/settings/security/lesssecureapps`
 
 and `turn on` Less secure apps.
 
-##about the repo
+## Why FOSS LNMIIT
 
-this is the online repository of open source club of lnmiit containing blogs, directories of achievements, sessions and conferences along with interesting stuffs goofing in FOSS LNMIIT labs
+FOSS-LNMIIT is the online repository for open source club of The LNM Institute of Information Technology containing blogs, directories of achievements, sessions and conferences along with interesting stuffs goofing in FOSS LNMIIT labs
 
-##todos
+## Development Flow
 ```
 [July]
 
@@ -19,7 +19,7 @@ Updation of Contribution
 Display of Graph of Contribution
 
 ```
-##stuffs used
+## Technology Stack
 
 ```
 
