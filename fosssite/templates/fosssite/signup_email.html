@@ -1,0 +1,29 @@
+{% extends 'fosssite/home.html' %}
+
+{% block content %}
+  <div id="wrapper">
+    <div class="join">
+      Verify Email Address
+    </div>
+        <div class="clr">
+          <hr />
+        </div>
+
+                <div class="forms">
+                    {% if messages %}
+                        {% for message in messages %}
+                         <p class="text-primary">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {% if error %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% endif %}
+                    <br/>
+                  <form action="" method="POST">{% csrf_token %}
+                    <input name="signup_email" type="text" placeholder="Email" size="40" onClick="border: 1px solid #30a8da;" id="email"/>
+                    <br/>
+                    <button type="submit" class="btn btn-default">Verify</button>
+                  </form>
+                </div>
+  </div>
+{% endblock %}

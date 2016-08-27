@@ -1,3 +1,9 @@
+`Configure settings.py file before testing`
+
+got to :- `https://www.google.com/settings/security/lesssecureapps`
+
+and `turn on` Less secure apps.
+
 ##about the repo
 
 this is the online repository of open source club of lnmiit containing blogs, directories of achievements, sessions and conferences along with interesting stuffs goofing in FOSS LNMIIT labs

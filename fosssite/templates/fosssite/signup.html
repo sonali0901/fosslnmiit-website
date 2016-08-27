@@ -19,10 +19,20 @@
                                       <p class="text-danger">{{ form.username.errors.as_text  }}</p>
                                       <input name="username" type="text" placeholder="Username" size="40" onClick="border: 1px solid #30a8da;" id="username"/>
                                       <p class="text-danger">{{ form.email.errors.as_text  }}</p>
+                                      {% if msg %}
+                                      <p class="text-danger">{{ msg  }}</p>
+                                      {% endif %}
                                       <input name="email" type="text" placeholder="Email ID" size="40" onClick="border: 1px solid #30a8da;" id="mail"/>
                                       <p class="text-danger">{{ form.password.errors.as_text  }}</p>
+<<<<<<< HEAD
                                       <input name="password" type="password" placeholder="Password" size="40" onClick="border: 1px solid #30a8da;" id="password"/>
                                       <button type="submit" class="btn">Create My Account</button>
+=======
+                                      <input name="password" type="password" placeholder="Password" size="40" onClick="border: 1px solid #30a8da;" id="password"/><br>
+                                      <input name="is_public" type="checkbox"  size="40" onClick="border: 1px solid #30a8da;"/> Make Profile Public<br>
+                                      <button type="submit" class="btn btn-default">Create My Account</button>
+
+>>>>>>> 9a0f2cfea603dc34c94deb7683fa94b6cd67255c
                                     </form>
                                 </div>
           </div>
