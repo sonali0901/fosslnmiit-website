@@ -23,7 +23,7 @@ from django.views.generic import *
 #from .forms import PasswordResetRequestForm, SetPasswordForm
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.db.models.query_utils import Q
+#from django.db.models.query_utils import Q
 
 
 def home(request):
@@ -67,7 +67,7 @@ def signup_email(request):
 		if user is not None:
 			c = {
 				'email': user.email,
-				'domain': 'www.fosslnmiit.xyz', #or your domain
+				'domain': '127.0.0.1:8000', #or your domain
 				'site_name': 'FossLnmiit',
 				'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 				'user': user,
@@ -122,7 +122,7 @@ def UserFormView(request):
 		username=form.cleaned_data['username']
 		password=form.cleaned_data['password']
 		email = form.cleaned_data['email']
-
+		profile.is_public = form.data['is_public']
 		try:
 			useremail = User.objects.get(email=email)
 		except User.DoesNotExist:
@@ -138,7 +138,7 @@ def UserFormView(request):
 
 		c = {
 			'email': user.email,
-			'domain': 'www.fosslnmiit.xyz', #or your domain
+			'domain': '127.0.0.1:8000', #or your domain
 			'site_name': 'FossLnmiit',
 			'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 			'user': user,
@@ -156,10 +156,20 @@ def UserFormView(request):
 		return redirect('fosssite:home')
 	return render(request,'fosssite/signup.html',{'form':form})
 
-@login_required
+
 def profileuser(request, name):
-	userprofile = get_object_or_404(UserProfile,profileuser=request.user)
-	return render(request,'fosssite/profileuser.html',{'user':request.user,'userprofile':userprofile})
+	try:
+		request.user
+		userprofile = get_object_or_404(UserProfile,profileuser=request.user)
+		return render(request,'fosssite/profileuser.html',{'user':request.user,'userprofile':userprofile,'puser':None})
+	except:
+		public_user = User.objects.filter(username=name).first()
+		if public_user:
+			public_userprofile = get_object_or_404(UserProfile,profileuser=public_user)
+			if public_userprofile.is_public:
+				return render(request,'fosssite/profileuser.html',{'puser':public_user,'userprofile':public_userprofile,'user':public_user})
+			return redirect('fosssite:login_user')
+		return redirect('fosssite:login_user')
 
 @login_required
 def logout(request):
