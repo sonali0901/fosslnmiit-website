@@ -16,6 +16,8 @@ class UserProfile(models.Model):
 	lnkdnurl = models.URLField(blank=True)
 	githuburl = models.URLField(blank=True)
 	example = models.URLField(blank=True)
+	blog_xml = models.URLField(blank=True)
+	is_public = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.profileuser.username
