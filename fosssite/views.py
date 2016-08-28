@@ -5,10 +5,11 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .forms import UserForm, UserProfileForm, UserEditForm
-from .models import UserProfile, User
+from .forms import UserForm, UserProfileForm, UserEditForm, ContributionsForm, SpeakersForm
+from .models import UserProfile, User, Contributions, Speakers
 
-
+from django.forms import formset_factory
+from django.db import IntegrityError, transaction
 
 
 from django.contrib.auth.tokens import default_token_generator
@@ -23,7 +24,7 @@ from django.views.generic import *
 #from .forms import PasswordResetRequestForm, SetPasswordForm
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.db.models.query_utils import Q
+#from django.db.models.query_utils import Q
 
 
 def home(request):
@@ -37,7 +38,7 @@ def login_user(request):
 			user = User.objects.get(username=username)
 		except User.DoesNotExist:
 			user = None
-		print user
+
 		try:
 			if user.is_active:
 				user = authenticate(username=username,password=password)
@@ -112,16 +113,24 @@ def confirm_email(request, uidb64=None, token=None):
 def UserFormView(request):
 	form=UserForm(request.POST or None)
 	profile_form = UserProfileForm()
+	contributions_form = ContributionsForm()
+	speakers_form = SpeakersForm()
 	if form.is_valid():
 		# not saving to database only creating object
 		user=form.save(commit=False)
 		profile = profile_form.save(commit=False)
+		contributions = contributions_form.save(commit=False)
+		speakers = speakers_form.save(commit=False)
 		#normalized data
 		user.first_name = form.data['fname']
 		user.last_name = form.data['lname']
 		username=form.cleaned_data['username']
 		password=form.cleaned_data['password']
 		email = form.cleaned_data['email']
+		try:
+			profile.is_public = form.data['is_public']
+		except:
+			profile.is_public = False
 
 		try:
 			useremail = User.objects.get(email=email)
@@ -135,7 +144,10 @@ def UserFormView(request):
 		user.save() #saved to database
 		profile.profileuser = user
 		profile.save()
-
+		contributions.contributionsuser = user
+		contributions.save()
+		speakers.speakersuser = user
+		speakers.save()
 		c = {
 			'email': user.email,
 			'domain': '127.0.0.1:8000', #or your domain
@@ -156,10 +168,20 @@ def UserFormView(request):
 		return redirect('fosssite:home')
 	return render(request,'fosssite/signup.html',{'form':form})
 
-@login_required
+
 def profileuser(request, name):
-	userprofile = get_object_or_404(UserProfile,profileuser=request.user)
-	return render(request,'fosssite/profileuser.html',{'user':request.user,'userprofile':userprofile})
+	try:
+		request.user
+		userprofile = get_object_or_404(UserProfile,profileuser=request.user)
+		return render(request,'fosssite/profileuser.html',{'user':request.user,'userprofile':userprofile,'puser':None})
+	except:
+		public_user = User.objects.filter(username=name).first()
+		if public_user:
+			public_userprofile = get_object_or_404(UserProfile,profileuser=public_user)
+			if public_userprofile.is_public:
+				return render(request,'fosssite/profileuser.html',{'puser':public_user,'userprofile':public_userprofile,'user':public_user})
+			return redirect('fosssite:login_user')
+		return redirect('fosssite:login_user')
 
 @login_required
 def logout(request):
@@ -212,6 +234,54 @@ def changepassword(request, name):
 			error = 'Current Password not Matched!'
 			return render(request,'fosssite/changepassword.html',{'error':error})
 	return render(request,'fosssite/changepassword.html')
+
+
+@login_required
+def edit_contributions(request, name):
+	ContributionsFormSet = formset_factory(ContributionsForm)
+	user = request.user
+
+	user_links = Contributions.objects.filter(contributionsuser=user).order_by('organization')
+	link_data = [{'ticket_id':l.ticket_id,'contribution_link':l.contribution_link,'organization':l.organization} 	for  l in user_links]
+
+	if request.method == 'POST':
+		contributions_formset = ContributionsFormSet(request.POST)
+		if contributions_formset.is_valid():
+			new_data =[]
+
+			for contributions_form in contributions_formset:
+				contributionsuser = user
+				ticket_id = contributions_form.cleaned_data.get('ticket_id')
+				contribution_link = contributions_form.cleaned_data.get('contribution_link')
+				organization = contributions_form.cleaned_data.get('organization')
+
+				if ticket_id and contribution_link and organization:
+					new_data.append(Contributions(contributionsuser=contributionsuser, ticket_id=ticket_id,contribution_link=contribution_link,organization=organization))
+				else:
+					contributions_formset = ContributionsFormSet(initial=link_data)
+					error = "Fields can't be empty!"
+					context = {
+						'contributions_formset':contributions_formset,
+						'error':error
+					}
+					return render(request, 'fosssite/edit_contributions.html',context)
+			try:
+				with transaction.atomic():
+					Contributions.objects.filter(contributionsuser=user).delete()
+					Contributions.objects.bulk_create(new_data)
+					messages.success(request, 'You have updated your profile.')
+					return redirect('fosssite:home')
+			except:
+				messages.error(request, 'There was an error saving your profile.')
+				return redirect('fosssite:home')
+
+	else:
+		contributions_formset = ContributionsFormSet(initial=link_data)
+	context = {
+		'contributions_formset':contributions_formset,
+	}
+
+	return render(request, 'fosssite/edit_contributions.html',context)
 
 
 def events(request):
@@ -295,116 +365,3 @@ def confirm_password(request, uidb64=None, token=None):
 	else:
 		messages.success(request,"The reset password link is no longer valid. Try again!")
 		return redirect('fosssite:forgot_password')
-
-"""
-class ResetPasswordRequestView(FormView):
-    template_name = "account/test_template.html"    #code for template is given below the view's code
-    success_url = '/login'
-    form_class = PasswordResetRequestForm
-
-    @staticmethod
-    def validate_email_address(email):
-        try:
-            validate_email(email)
-            return True
-        except ValidationError:
-            return False
-
-    def post(self, request, *args, **kwargs):
-
-        form = self.form_class(request.POST)
-
-        if form.is_valid():
-            data= form.cleaned_data["email_or_username"]
-
-        if self.validate_email_address(data) is True:                 #uses the method written above
-            associated_users= User.objects.filter(Q(email=data)|Q(username=data))
-            if associated_users.exists():
-                for user in associated_users:
-                        c = {
-                            'email': user.email,
-                            'domain': request.META['HTTP_HOST'],
-                            'site_name': 'FossLnmiit',
-                            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                            'user': user,
-                            'token': default_token_generator.make_token(user),
-                            'protocol': 'http',
-                            }
-                        subject_template_name='registration/password_reset_subject.txt'
-                        # copied from django/contrib/admin/templates/registration/password_reset_subject.txt to templates directory
-                        email_template_name='registration/password_reset_email.html'
-                        # copied from django/contrib/admin/templates/registration/password_reset_email.html to templates directory
-                        subject = loader.render_to_string(subject_template_name, c)
-                        # Email subject *must not* contain newlines
-                        subject = ''.join(subject.splitlines())
-                        email = loader.render_to_string(email_template_name, c)
-                        send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
-                result = self.form_valid(form)
-                messages.success(request, 'An email has been sent to ' + data +". Please check its inbox to continue reseting password.")
-                return result
-            result = self.form_invalid(form)
-            messages.error(request, 'No user is associated with this email address')
-            return result
-        else:
-            associated_users= User.objects.filter(username=data)
-            if associated_users.exists():
-                for user in associated_users:
-                    c = {
-                        'email': user.email,
-                        'domain': '127.0.0.1:8000/', #or your domain
-                        'site_name': 'FossLnmiit',
-                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                        'user': user,
-                        'token': default_token_generator.make_token(user),
-                        'protocol': 'http',
-                        }
-                    subject_template_name='registration/password_reset_subject.txt'
-                    email_template_name='registration/password_reset_email.html'
-                    subject = loader.render_to_string(subject_template_name, c)
-                    # Email subject *must not* contain newlines
-                    subject = ''.join(subject.splitlines())
-                    email = loader.render_to_string(email_template_name, c)
-                    send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
-                result = self.form_valid(form)
-                messages.success(request, 'Email has been sent to ' + data +"'s email address. Please check its inbox to continue reseting password.")
-                return result
-            result = self.form_invalid(form)
-            messages.error(request, 'This username does not exist in the system.')
-            return result
-        messages.error(request, 'Invalid Input')
-        return self.form_invalid(form)
-
-
-class PasswordResetConfirmView(FormView):
-    template_name = "account/test_template.html"
-    success_url = '/admin/'
-    form_class = SetPasswordForm
-
-    def post(self, request, uidb64=None, token=None, *arg, **kwargs):
-
-        View that checks the hash in a password reset link and presents a
-        form for entering a new password.
-
-        UserModel = get_user_model()
-        form = self.form_class(request.POST)
-        assert uidb64 is not None and token is not None  # checked by URLconf
-        try:
-            uid = urlsafe_base64_decode(uidb64)
-            user = UserModel._default_manager.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
-            user = None
-
-        if user is not None and default_token_generator.check_token(user, token):
-            if form.is_valid():
-                new_password= form.cleaned_data['new_password2']
-                user.set_password(new_password)
-                user.save()
-                messages.success(request, 'Password has been reset.')
-                return self.form_valid(form)
-            else:
-                messages.error(request, 'Password reset has not been unsuccessful.')
-                return self.form_invalid(form)
-        else:
-            messages.error(request,'The reset password link is no longer valid. Try again!')
-            return self.form_invalid(form)
-"""

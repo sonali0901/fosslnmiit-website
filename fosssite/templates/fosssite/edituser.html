@@ -21,11 +21,11 @@
        <div class='row'>
          <div class='col-md-6'>
              <div class='form-group'>
-               <label for="user_email">Email</label>
-               <input autofocus="autofocus" class="form-control" id="user_email"{{ user_form.email }}
-             </div>
-             <br/>
-             <div class='form-group'>
+              <label for="user_email">Email</label>
+              <input type="hidden" autofocus="autofocus" class="form-control" id="user_email"{{ user_form.email }}
+            </div>
+            <br/>
+            <div class='form-group'>
                <label for="user_name">First Name</label>
                <input class="form-control" id="user_name" {{ user_form.first_name }}
              </div>
@@ -40,6 +40,12 @@
                <a href="{% url 'fosssite:changepassword' name=request.user %}">
                <button type="button" class="btn btn-primary">Change Password</button></a>
              </div>
+             <br />
+             <div class='form-group'>
+               <label for="user_name">Add Contributions</label><br/><br/>
+               <a href="{% url 'fosssite:edit_contributions' name=request.user %}">
+               <button type="button" class="btn btn-primary">Add Contributions</button></a>
+             </div>
              <br/>
              {% if errors %}
              <p class="text-danger">{{ errors }}</p>
@@ -48,7 +54,10 @@
                <label for="user_avatar">Avatar</label><br/><br/>
                <input id="user_avatar" name="avatar" type="file" />
              </div>
-
+             <br/>
+               <div class='form-group'>
+                 <input  type="checkbox" id="public" {{ profile_form.is_public }} Make Profile Public
+               </div>
            <br/>
              <div class='form-group'>
                <label for="user_handle">Handle</label>
@@ -78,6 +87,11 @@
                   <div class='form-group'>
                     <label for="user_homepage">Personal</label>
                    <input class="form-control" id="user_homepage" placeholder="http://www.example.com" size="30" type="text" {{ profile_form.example }}
+                 </div>
+                 <br/>
+                 <div class='form-group'>
+                  <label for="user_blog_xml">Blog</label>
+                   <input class="form-control" id="user_blog_xml" placeholder="" size="30" type="text" {{ profile_form.blog_xml }}
                  </div>
 
              <div class='form-group'>

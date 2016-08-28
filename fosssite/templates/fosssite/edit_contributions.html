@@ -1,0 +1,86 @@
+{% extends 'fosssite/home.html' %}
+{% load staticfiles %}
+
+{% block profile %}
+<li><a href="{% url 'fosssite:profileuser' name=request.user%}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
+<li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+{% endblock %}
+
+{% block content %}
+<div id='main-content' class='container'>
+   <div class='row'>
+       <div class='col-md-12'>
+           <div class='page-header'>
+               <h2>Edit User Profile</h2>
+           </div>
+           <div class='page-body'>
+               <form method="post" class="form-horizontal">
+                   {% csrf_token %}
+                   {% if messages %}
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {% if error %}<p class="text-danger">{{error}}</p>{% endif %}
+                    <br/>
+
+                    {{ contributions_formset.management_form }}
+
+                    <br/>
+
+                            {% for contributions_form in contributions_formset %}
+
+                                <div class="link-formset">
+                                    <div class="form-group">
+                                        <label class="col-xs-1 control-label">Form</label>
+                                        <div class="col-xs-1">
+                                            <input style="width: 70px;" placeholder="Ticket ID/Issue Number" {{ contributions_form.ticket_id }}
+                                        </div>
+                                    {% if contributions_form.ticket_id.errors %}
+                                        {% for error in contributions_form.ticket_id.errors %}
+                                            {{ error|escape }}
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    <div class="col-xs-3">
+                                        <input size="30" placeholder="Contributions Link"{{ contributions_form.contribution_link }}
+                                    </div>
+                                    {% if contributions_form.ticket_id.errors %}
+                                        {% for error in contributions_form.ticket_id.errors %}
+                                            {{ error|escape }}
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    <div class="col-xs-3">
+                                        <input placeholder="Organization Name" {{ contributions_form.organization }}
+                                    </div>
+                                    {% if contributions_form.organization.errors %}
+                                        {% for error in contributions_form.organization.errors %}
+                                            {{ error|escape }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                                <br/>
+                                <br/>
+                            {% endfor %}
+                            <br/>
+                            <br/>
+                            <input type="submit" value="Update Contributions" class="button"/>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include formset plugin - including jQuery dependency -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="{% static 'jquery.formset.js' %}"></script>
+<script>
+    $('.link-formset').formset({
+        addText: 'add link',
+        deleteText: 'remove'
+    });
+</script>
+{% endblock %}
