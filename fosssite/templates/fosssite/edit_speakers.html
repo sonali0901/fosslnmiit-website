@@ -25,39 +25,31 @@
                     <br/>
                     <div class='row'>
                       <div class='col-md-6'>
-                    {{ contributions_formset.management_form }}
-                            {% for contributions_form in contributions_formset %}
+                    {{ speakers_formset.management_form }}
+                            {% for speakers_form in speakers_formset %}
 
                                 <div class="link-formset">
                                     <div class="form-group">
-                                        <label for="ticket">Ticket ID/Issue Number</label>
-                                        <input  class="form-control" id="ticket" {{ contributions_form.ticket_id }}
+                                        <label for="ticket">Event Name</label>
+                                        <input  class="form-control" id="ticket" {{ speakers_form.event_name }}
                                     </div>
-                                    {% if contributions_form.ticket_id.errors %}
-                                        {% for error in contributions_form.ticket_id.errors %}
+                                    {% if speakers_form.event_name.errors %}
+                                        {% for error in speakers_form.event_name.errors %}
                                             {{ error|escape }}
                                         {% endfor %}
                                     {% endif %}
                                     <br/>
                                     <div class="form-group">
-                                        <label for="cont">Contributions Link</label>
-                                        <input class="form-control" id="cont" {{ contributions_form.contribution_link }}
+                                        <label for="cont">Event Link</label>
+                                        <input class="form-control" id="cont" {{ speakers_form.event_link }}
                                     </div>
-                                    {% if contributions_form.contribution_link.errors %}
-                                        {% for error in contributions_form.contribution_link.errors %}
+                                    {% if speakers_form.event_link.errors %}
+                                        {% for error in speakers_form.event_link.errors %}
                                             {{ error|escape }}
                                         {% endfor %}
                                     {% endif %}
                                     <br/>
-                                    <div class="form-group">
-                                        <label for="org">Organization Name</label>
-                                        <input class="form-control" id="org" {{ contributions_form.organization }}
-                                    </div>
-                                    {% if contributions_form.organization.errors %}
-                                        {% for error in contributions_form.organization.errors %}
-                                            {{ error|escape }}
-                                        {% endfor %}
-                                    {% endif %}
+
                                 </div>
                                 </div>
                                 </div>
@@ -67,7 +59,7 @@
                             {% endfor %}
                             <br/>
                             <br/>
-                            <input type="submit" value="Update Contributions" class="button"/>
+                            <input type="submit" value="Update" class="button"/>
 
                 </form>
             </div>

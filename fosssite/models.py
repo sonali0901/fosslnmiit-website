@@ -30,7 +30,7 @@ class Contributions(models.Model):
 	organization = models.CharField(max_length=200,blank=True)
 
 	def __str__(self):
-		return self.contributionsuser.username
+		return "%s - %s " %(self.contributionsuser.username, self.organization)
 
 class Speakers(models.Model):
 	speakersuser = models.ForeignKey(User)
@@ -38,4 +38,4 @@ class Speakers(models.Model):
 	event_link = models.URLField(blank=True)
 
 	def __str__(self):
-		return self.speakersuser.username
+		return "%s - %s " %(self.speakersuser.username, self.event_name)

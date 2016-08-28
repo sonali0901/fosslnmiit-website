@@ -1,30 +1,20 @@
-from django.views.generic import View
-from django.utils import timezone
-from django.shortcuts import render, get_object_or_404,render_to_response,redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm, UserProfileForm, UserEditForm, ContributionsForm, SpeakersForm
 from .models import UserProfile, User, Contributions, Speakers
-
 from django.forms import formset_factory
 from django.db import IntegrityError, transaction
-
-
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template import loader
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from foss.settings import DEFAULT_FROM_EMAIL
-from django.views.generic import *
-#from .forms import PasswordResetRequestForm, SetPasswordForm
 from django.contrib import messages
 from django.contrib.auth.models import User
-#from django.db.models.query_utils import Q
 
 
 def home(request):
@@ -259,10 +249,9 @@ def edit_contributions(request, name):
 					new_data.append(Contributions(contributionsuser=contributionsuser, ticket_id=ticket_id,contribution_link=contribution_link,organization=organization))
 				else:
 					contributions_formset = ContributionsFormSet(initial=link_data)
-					error = "Fields can't be empty!"
 					context = {
 						'contributions_formset':contributions_formset,
-						'error':error
+						'error':"Fields can't be empty!"
 					}
 					return render(request, 'fosssite/edit_contributions.html',context)
 			try:
@@ -282,6 +271,48 @@ def edit_contributions(request, name):
 	}
 
 	return render(request, 'fosssite/edit_contributions.html',context)
+
+@login_required
+def edit_speakers(request, name):
+	SpeakersFormSet = formset_factory(SpeakersForm)
+	user = request.user
+
+	user_links = Speakers.objects.filter(speakersuser=user).order_by('event_name')
+	link_data = [{'event_name':l.event_name,'event_link':l.event_link} 	for  l in user_links]
+
+	if request.method == 'POST':
+		speakers_formset = SpeakersFormSet(request.POST)
+		if speakers_formset.is_valid():
+			new_data =[]
+			for speakers_form in speakers_formset:
+				speakersuser = user
+				event_name = speakers_form.cleaned_data.get('event_name')
+				event_link = speakers_form.cleaned_data.get('event_link')
+
+				if event_name and event_name:
+					new_data.append(Speakers(speakersuser=speakersuser, event_name=event_name,event_link=event_link))
+				else:
+					speakers_formset = SpeakersFormSet(initial=link_data)
+					context = {
+						'speakers_formset':speakers_formset,
+						'error':"Fields can't be empty!"
+					}
+					return render(request, 'fosssite/edit_speakers.html',context)
+
+			try:
+				with transaction.atomic():
+					Speakers.objects.filter(speakersuser=user).delete()
+					Speakers.objects.bulk_create(new_data)
+					messages.success(request, 'You have updated your profile.')
+					return redirect('fosssite:home')
+			except:
+				messages.error(request, 'There was an error saving your profile.')
+				return redirect('fosssite:home')
+
+	else:
+		speakers_formset = SpeakersFormSet(initial=link_data)
+		context = {'speakers_formset':speakers_formset}
+	return render(request, 'fosssite/edit_speakers.html',context)
 
 
 def events(request):
