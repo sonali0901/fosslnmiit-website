@@ -20,8 +20,8 @@
 
        <div class='row'>
          <div class='col-md-6'>
-          <div class='form-group'>
-            
+             <div class='form-group'>
+              <label for="user_email">Email</label>
               <input type="hidden" autofocus="autofocus" class="form-control" id="user_email"{{ user_form.email }}
             </div>
             <br/>
@@ -39,6 +39,18 @@
                <label for="user_name">Password</label><br/><br/>
                <a href="{% url 'fosssite:changepassword' name=request.user %}">
                <button type="button" class="btn btn-primary">Change Password</button></a>
+             </div>
+             <br />
+             <div class='form-group'>
+               <label for="user_name">Add Contributions</label><br/><br/>
+               <a href="{% url 'fosssite:edit_contributions' name=request.user %}">
+               <button type="button" class="btn btn-primary">Add Contributions</button></a>
+             </div>
+             <br />
+             <div class='form-group'>
+               <label for="user_name">Add Speakers / Presentation</label><br/><br/>
+               <a href="{% url 'fosssite:edit_speakers' name=request.user %}">
+               <button type="button" class="btn btn-primary">Add Speakers/Presentation</button></a>
              </div>
              <br/>
              {% if errors %}

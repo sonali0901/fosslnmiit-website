@@ -1,29 +1,20 @@
-from django.views.generic import View
-from django.utils import timezone
-from django.shortcuts import render, get_object_or_404,render_to_response,redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .forms import UserForm, UserProfileForm, UserEditForm
-from .models import UserProfile, User
-
-
-
-
+from .forms import UserForm, UserProfileForm, UserEditForm, ContributionsForm, SpeakersForm
+from .models import UserProfile, User, Contributions, Speakers
+from django.forms import formset_factory
+from django.db import IntegrityError, transaction
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template import loader
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from foss.settings import DEFAULT_FROM_EMAIL
-from django.views.generic import *
-#from .forms import PasswordResetRequestForm, SetPasswordForm
 from django.contrib import messages
 from django.contrib.auth.models import User
-#from django.db.models.query_utils import Q
 
 
 def home(request):
@@ -37,7 +28,7 @@ def login_user(request):
 			user = User.objects.get(username=username)
 		except User.DoesNotExist:
 			user = None
-	
+
 		try:
 			if user.is_active:
 				user = authenticate(username=username,password=password)
@@ -67,7 +58,7 @@ def signup_email(request):
 		if user is not None:
 			c = {
 				'email': user.email,
-				'domain': 'www.fosslnmiit.xyz', #or your domain
+				'domain': '127.0.0.1:8000', #or your domain
 				'site_name': 'FossLnmiit',
 				'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 				'user': user,
@@ -112,23 +103,26 @@ def confirm_email(request, uidb64=None, token=None):
 def UserFormView(request):
 	form=UserForm(request.POST or None)
 	profile_form = UserProfileForm()
+	contributions_form = ContributionsForm()
+	speakers_form = SpeakersForm()
 	if form.is_valid():
 		# not saving to database only creating object
 		user=form.save(commit=False)
 		profile = profile_form.save(commit=False)
+		contributions = contributions_form.save(commit=False)
+		speakers = speakers_form.save(commit=False)
 		#normalized data
 		user.first_name = form.data['fname']
 		user.last_name = form.data['lname']
 		username=form.cleaned_data['username']
 		password=form.cleaned_data['password']
 		email = form.cleaned_data['email']
-		
-                try:
+		try:
 			profile.is_public = form.data['is_public']
 		except:
 			profile.is_public = False
-		
-                try:
+
+		try:
 			useremail = User.objects.get(email=email)
 		except User.DoesNotExist:
 			useremail = None
@@ -140,10 +134,13 @@ def UserFormView(request):
 		user.save() #saved to database
 		profile.profileuser = user
 		profile.save()
-
+		contributions.contributionsuser = user
+		contributions.save()
+		speakers.speakersuser = user
+		speakers.save()
 		c = {
 			'email': user.email,
-			'domain': 'www.fosslnmiit.xyz', #or your domain
+			'domain': '127.0.0.1:8000', #or your domain
 			'site_name': 'FossLnmiit',
 			'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 			'user': user,
@@ -229,6 +226,95 @@ def changepassword(request, name):
 	return render(request,'fosssite/changepassword.html')
 
 
+@login_required
+def edit_contributions(request, name):
+	ContributionsFormSet = formset_factory(ContributionsForm)
+	user = request.user
+
+	user_links = Contributions.objects.filter(contributionsuser=user).order_by('organization')
+	link_data = [{'ticket_id':l.ticket_id,'contribution_link':l.contribution_link,'organization':l.organization} 	for  l in user_links]
+
+	if request.method == 'POST':
+		contributions_formset = ContributionsFormSet(request.POST)
+		if contributions_formset.is_valid():
+			new_data =[]
+
+			for contributions_form in contributions_formset:
+				contributionsuser = user
+				ticket_id = contributions_form.cleaned_data.get('ticket_id')
+				contribution_link = contributions_form.cleaned_data.get('contribution_link')
+				organization = contributions_form.cleaned_data.get('organization')
+
+				if ticket_id and contribution_link and organization:
+					new_data.append(Contributions(contributionsuser=contributionsuser, ticket_id=ticket_id,contribution_link=contribution_link,organization=organization))
+				else:
+					contributions_formset = ContributionsFormSet(initial=link_data)
+					context = {
+						'contributions_formset':contributions_formset,
+						'error':"Fields can't be empty!"
+					}
+					return render(request, 'fosssite/edit_contributions.html',context)
+			try:
+				with transaction.atomic():
+					Contributions.objects.filter(contributionsuser=user).delete()
+					Contributions.objects.bulk_create(new_data)
+					messages.success(request, 'You have updated your profile.')
+					return redirect('fosssite:home')
+			except:
+				messages.error(request, 'There was an error saving your profile.')
+				return redirect('fosssite:home')
+
+	else:
+		contributions_formset = ContributionsFormSet(initial=link_data)
+	context = {
+		'contributions_formset':contributions_formset,
+	}
+
+	return render(request, 'fosssite/edit_contributions.html',context)
+
+@login_required
+def edit_speakers(request, name):
+	SpeakersFormSet = formset_factory(SpeakersForm)
+	user = request.user
+
+	user_links = Speakers.objects.filter(speakersuser=user).order_by('event_name')
+	link_data = [{'event_name':l.event_name,'event_link':l.event_link} 	for  l in user_links]
+
+	if request.method == 'POST':
+		speakers_formset = SpeakersFormSet(request.POST)
+		if speakers_formset.is_valid():
+			new_data =[]
+			for speakers_form in speakers_formset:
+				speakersuser = user
+				event_name = speakers_form.cleaned_data.get('event_name')
+				event_link = speakers_form.cleaned_data.get('event_link')
+
+				if event_name and event_name:
+					new_data.append(Speakers(speakersuser=speakersuser, event_name=event_name,event_link=event_link))
+				else:
+					speakers_formset = SpeakersFormSet(initial=link_data)
+					context = {
+						'speakers_formset':speakers_formset,
+						'error':"Fields can't be empty!"
+					}
+					return render(request, 'fosssite/edit_speakers.html',context)
+
+			try:
+				with transaction.atomic():
+					Speakers.objects.filter(speakersuser=user).delete()
+					Speakers.objects.bulk_create(new_data)
+					messages.success(request, 'You have updated your profile.')
+					return redirect('fosssite:home')
+			except:
+				messages.error(request, 'There was an error saving your profile.')
+				return redirect('fosssite:home')
+
+	else:
+		speakers_formset = SpeakersFormSet(initial=link_data)
+		context = {'speakers_formset':speakers_formset}
+	return render(request, 'fosssite/edit_speakers.html',context)
+
+
 def events(request):
 	if request.user.is_authenticated():
 		return render(request,'fosssite/working.html',{})
@@ -260,7 +346,7 @@ def forgot_password(request):
 			if user is not None:
 				c = {
 					'email': user.email,
-					'domain': 'www.fosslnmiit.xyz', #or your domain
+					'domain': '127.0.0.1:8000', #or your domain
 					'site_name': 'FossLnmiit',
 					'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 					'user': user,
