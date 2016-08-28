@@ -37,7 +37,7 @@ def login_user(request):
 			user = User.objects.get(username=username)
 		except User.DoesNotExist:
 			user = None
-		print user
+	
 		try:
 			if user.is_active:
 				user = authenticate(username=username,password=password)
@@ -122,8 +122,13 @@ def UserFormView(request):
 		username=form.cleaned_data['username']
 		password=form.cleaned_data['password']
 		email = form.cleaned_data['email']
-		profile.is_public = form.data['is_public']
-		try:
+		
+                try:
+			profile.is_public = form.data['is_public']
+		except:
+			profile.is_public = False
+		
+                try:
 			useremail = User.objects.get(email=email)
 		except User.DoesNotExist:
 			useremail = None
@@ -138,7 +143,7 @@ def UserFormView(request):
 
 		c = {
 			'email': user.email,
-			'domain': '127.0.0.1:8000', #or your domain
+			'domain': 'www.fosslnmiit.xyz', #or your domain
 			'site_name': 'FossLnmiit',
 			'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 			'user': user,
