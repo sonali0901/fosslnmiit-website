@@ -21,3 +21,21 @@ class UserProfile(models.Model):
 
 	def __str__(self):
 		return self.profileuser.username
+
+
+class Contributions(models.Model):
+	contributionsuser = models.ForeignKey(User)
+	ticket_id = models.IntegerField(blank=True, null=True)
+	contribution_link = models.URLField(blank=True)
+	organization = models.CharField(max_length=200,blank=True)
+
+	def __str__(self):
+		return "%s - %s " %(self.contributionsuser.username, self.organization)
+
+class Speakers(models.Model):
+	speakersuser = models.ForeignKey(User)
+	event_name = models.CharField(max_length=200,blank=True)
+	event_link = models.URLField(blank=True)
+
+	def __str__(self):
+		return "%s - %s " %(self.speakersuser.username, self.event_name)
