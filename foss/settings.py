@@ -30,12 +30,12 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'garg95hitesh@gmail.com'
-SERVER_EMAIL = 'garg95hitesh@gmail.com'
+DEFAULT_FROM_EMAIL = 'fosslnmiit@gmail.com'
+SERVER_EMAIL = 'fosslnmiit@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'garg95hitesh@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = 'fosslnmiit@gmail.com'
+EMAIL_HOST_PASSWORD = 'lnm@foss'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
