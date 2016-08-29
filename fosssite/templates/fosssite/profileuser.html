@@ -15,7 +15,8 @@
 
 {% endif %}
 {% endblock %}
-
+{% block image %}
+{% endblock %}
 {% block content %}
 
 
@@ -23,25 +24,20 @@
 	<div class='row'>
 		<div class='col-md-12'>
 			<div class='page-header'>
-				<h2>
-					Sagar Chand Agarwal
-					<span class='pull-right'>
-						<small>fossLNMIIT User Profile</small>
-					</span>
-				</h2>
+
 			</div>
 		</div>
 	</div>
 
 	<div class='row'>
-		<div class='col-md-4'>
-			<div class='row'>
-				{% if userprofile.avatar %}
-					<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="{{ userprofile.avatar.url }}" width="200" />
+				<div class='col-md-4'>
+					<div class='row'>
+					{% if userprofile.avatar %}
+				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="{{ userprofile.avatar.url }}" width="200" />
 				{% else %}
-					<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="https://secure.gravatar.com/avatar/f340b72deeb79a210ec2138dea6e8561" width="200" />
+				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="https://secure.gravatar.com/avatar/f340b72deeb79a210ec2138dea6e8561" width="200" />
 				{% endif %}
-			</div>
+				</div>
 				<div class='row'>
 					<div class='col-md-12'>
 					  <ul class='nav navbar-nav'>
@@ -91,12 +87,10 @@
 							<td>{{userprofile.example}}</td>
 						</tr>
 
-
 				</table>
-
 			</div>
 			<div class='col-md-12'>
-				<h1>Contributions :-</h1><br>
+				<h3>Contributions :-</h3><br>
 					{% if contributions_list %}
 						<ul>
 						{% for contribution in contributions_list %}
@@ -108,7 +102,7 @@
 						<p>No Contributions</p>
 					{% endif %}
 					<br><br>
-					<h1>Speakers / Presentations :-</h1><br>
+					<h3>Speakers/Presentations :-</h3><br>
 						{% if speakers_list %}
 							<ul>
 							{% for speakers in speakers_list %}
