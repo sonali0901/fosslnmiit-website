@@ -1,14 +1,21 @@
 {% extends 'fosssite/home.html' %}
+{% load staticfiles %}
 {% block profile %}
-{% if puser %}
-<li><a href="{% url 'fosssite:UserFormView'%}"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
-<li><a href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-{% else %}
+{% if request.user.is_authenticated  %}
+
 <li><a href="{% url 'fosssite:profileuser' name=request.user %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
 <li><a href="{% url 'fosssite:edit_user_profile' name=request.user %}"><span class="glyphicon glyphicon-edit"></span> Edit Profile</a></li>
 <li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+
+{% else %}
+
+<li><a href="{% url 'fosssite:UserFormView'%}"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
+<li><a href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+
 {% endif %}
 {% endblock %}
+
 {% block content %}
 
 
@@ -27,17 +34,23 @@
 	</div>
 
 	<div class='row'>
-				<div class='col-md-4'>
-					<div class='row'>
-					{% if userprofile.avatar %}
-				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="{{ userprofile.avatar.url }}" width="200" />
+		<div class='col-md-4'>
+			<div class='row'>
+				{% if userprofile.avatar %}
+					<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="{{ userprofile.avatar.url }}" width="200" />
 				{% else %}
-				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="https://secure.gravatar.com/avatar/f340b72deeb79a210ec2138dea6e8561" width="200" />
+					<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="https://secure.gravatar.com/avatar/f340b72deeb79a210ec2138dea6e8561" width="200" />
 				{% endif %}
-				</div>
+			</div>
 				<div class='row'>
-				<ul class='nav navbar-nav'>
-				</ul>
+					<div class='col-md-12'>
+					  <ul class='nav navbar-nav'>
+						<li><a href="{{ userprofile.twitterurl }}" target="_blank"><img alt="Twitter" height="20" src="{% static 'assets/twitter.png' %}" width="20" /></a></li>
+						<li><a href="{{ userprofile.facebookurl }}" target="_blank"><img alt="Facebook" height="20" src="{% static 'assets/fb.png' %}" width="20" /></a></li>
+						<li><a href="{{ userprofile.lnkdnurl }}" target="_blank"><img alt="Group" height="20" src="{% static 'assets/linkedin.png' %}" width="20" /></a></li>
+						<li><a href="{{ userprofile.githuburl }}" target="_blank"><img alt="Group" height="20" src="{% static 'assets/github.png' %}" width="20" /></a></li>
+					  </ul>
+					</div>
 				</div>
 	</div>
 	<div class='col-md-8'>
@@ -73,9 +86,39 @@
 							<th width='30%'>About Me</th>
 							<td>{{userprofile.about_me}}</td>
 						</tr>
+						<tr>
+							<th width='30%'>Website</th>
+							<td>{{userprofile.example}}</td>
+						</tr>
 
 
 				</table>
+
+			</div>
+			<div class='col-md-12'>
+				<h1>Contributions :-</h1><br>
+					{% if contributions_list %}
+						<ul>
+						{% for contribution in contributions_list %}
+						<li><a href="{{ contribution.contribution_link }}">{{ contribution.organization }}</a></li>
+						<br>
+						{% endfor %}
+					</ul>
+					{% else %}
+						<p>No Contributions</p>
+					{% endif %}
+					<br><br>
+					<h1>Speakers / Presentations :-</h1><br>
+						{% if speakers_list %}
+							<ul>
+							{% for speakers in speakers_list %}
+							<li><a href="{{ speakers.event_link }}">{{ speakers.event_name }}</a></li>
+							<br>
+							{% endfor %}
+						</ul>
+						{% else %}
+							<p>No Speakers / Presentations</p>
+						{% endif %}
 			</div>
 		</div>
 	</div>

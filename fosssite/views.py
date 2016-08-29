@@ -160,18 +160,32 @@ def UserFormView(request):
 
 
 def profileuser(request, name):
-	try:
-		request.user
-		userprofile = get_object_or_404(UserProfile,profileuser=request.user)
-		return render(request,'fosssite/profileuser.html',{'user':request.user,'userprofile':userprofile,'puser':None})
-	except:
+	if str(request.user) != name:
 		public_user = User.objects.filter(username=name).first()
 		if public_user:
 			public_userprofile = get_object_or_404(UserProfile,profileuser=public_user)
 			if public_userprofile.is_public:
-				return render(request,'fosssite/profileuser.html',{'puser':public_user,'userprofile':public_userprofile,'user':public_user})
+				contributions_list = Contributions.objects.filter(contributionsuser=public_user)[:3]
+				speakers_list = Speakers.objects.filter(speakersuser=public_user)[:3]
+				context_dict = {'userprofile':public_userprofile,
+				'user':public_user,
+				'contributions_list':contributions_list,
+				'speakers_list':speakers_list
+				}
+				return render(request,'fosssite/profileuser.html',context_dict)
 			return redirect('fosssite:login_user')
-		return redirect('fosssite:login_user')
+		return redirect('fosssite:home')
+	elif str(request.user) == name:
+		userprofile = get_object_or_404(UserProfile,profileuser=request.user)
+		contributions_list = Contributions.objects.filter(contributionsuser=request.user)[:3]
+		speakers_list = Speakers.objects.filter(speakersuser=request.user)[:3]
+		context_dict={'user':request.user,
+		'userprofile':userprofile,
+		'contributions_list':contributions_list,
+		'speakers_list':speakers_list
+		}
+		return render(request,'fosssite/profileuser.html',context_dict)
+
 
 @login_required
 def logout(request):
