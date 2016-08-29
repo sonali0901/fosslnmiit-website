@@ -28,6 +28,7 @@ def login_user(request):
 			user = User.objects.get(username=username)
 		except User.DoesNotExist:
 			user = None
+
 		try:
 			if user.is_active:
 				user = authenticate(username=username,password=password)
@@ -184,6 +185,7 @@ def profileuser(request, name):
 		'speakers_list':speakers_list
 		}
 		return render(request,'fosssite/profileuser.html',context_dict)
+
 
 @login_required
 def logout(request):
