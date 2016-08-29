@@ -5,7 +5,8 @@
 <li><a href="{% url 'fosssite:profileuser' name=request.user %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
 <li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 {% endblock %}
-
+{% block image %}
+{% endblock %}
 {% block content %}
 <div id='main-content' class='container'>
    <div class='row'>
@@ -65,6 +66,8 @@
                  <input  type="checkbox" id="public" {{ profile_form.is_public }} Make Profile Public
                </div>
            <br/>
+       </div>
+       <div class='col-md-6'>
              <div class='form-group'>
                <label for="user_handle">Handle</label>
                <input class="form-control" id="user_handle" {{ profile_form.handle }}
@@ -111,6 +114,7 @@
            <input class="btn btn-primary btn-lg" name="commit" type="submit" value="Update" />
          </div>
      </div>
+ </div>
  </div>
 
        </form>
