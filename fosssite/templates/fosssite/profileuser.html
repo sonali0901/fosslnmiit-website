@@ -8,29 +8,32 @@
 
 	<div class='row'>
 				<div class='col-md-4'>
+					<br><br>
 					<div class='row'>
+						<div class='col-md-12 col-xs-offset-2'>
 					{% if userprofile.avatar %}
 				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="{{ userprofile.avatar.url }}" width="200" />
 				{% else %}
 				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="https://secure.gravatar.com/avatar/f340b72deeb79a210ec2138dea6e8561" width="200" />
 				{% endif %}
-				</div>
+			</div>
+			</div><br>
 				<div class='row'>
-					<div class='col-md-12' style="padding-left: 0px;">
-					  <ul class='nav navbar-nav'>
+					<div class='col-md-12 col-xs-offset-2' style="padding-left: 0px;">
+
 						  {% if userprofile.twitterurl %}
-						<li><a href="{{ userprofile.twitterurl }}" target="_blank"><img alt="Twitter" height="20" src="{% static 'assets/twitter.png' %}" width="20" /></a></li>
+						<a href="{{ userprofile.twitterurl }}" target="_blank"><img alt="Twitter" height="20" src="{% static 'assets/twitter.png' %}" width="20" style="margin-right: 10px; margin-left: 15px;"/></a>
 						{%  endif %}
 						 {% if userprofile.facebookurl %}
-						<li><a href="{{ userprofile.facebookurl }}" target="_blank"><img alt="Facebook" height="20" src="{% static 'assets/facebook-3.svg' %}" width="20" /></a></li>
+						<a href="{{ userprofile.facebookurl }}" target="_blank"><img alt="Facebook" height="20" src="{% static 'assets/facebook-3.svg' %}" width="20" style="margin-right: 10px; margin-left: 15px;" /></a>
 						{%  endif %}
 						 {% if userprofile.lnkdnurl %}
-						<li><a href="{{ userprofile.lnkdnurl }}" target="_blank"><img alt="Group" height="20" src="{% static 'assets/linkedin.png' %}" width="20" /></a></li>
+						<a href="{{ userprofile.lnkdnurl }}" target="_blank"><img alt="Group" height="20" src="{% static 'assets/linkedin.png' %}" width="20" style="margin-right: 10px; margin-left: 15px;" /></a>
 						{%  endif %}
 						 {% if userprofile.githuburl %}
-						<li><a href="{{ userprofile.githuburl }}" target="_blank"><img alt="Group" height="20" src="{% static 'assets/github.png' %}" width="20" /></a></li>
+					<a href="{{ userprofile.githuburl }}" target="_blank"><img alt="Group" height="20" src="{% static 'assets/github.png' %}" width="20" style="margin-right: 10px; margin-left: 15px;" /></a>
 						{%  endif %}
-					  </ul>
+
 					</div>
 				</div>
 	</div>

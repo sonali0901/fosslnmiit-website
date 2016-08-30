@@ -3,8 +3,9 @@
 
 
     {% block body %}
+
     <div class='row'>
-        <div class="col-md-12">
+        <div class="col-md-12 " >
       <div >
           {% if messages %}
               {% for message in messages %}
@@ -12,9 +13,8 @@
               {% endfor %}
           {% endif %}
       </div>
-      </div>
-      <div class="col-md-12">
-          <img src={% static 'assets/images/mix-gallery10.jpg' %} style="height: 600px;width: 1280px;" />
-      </div>
-    </div>
+</div>
+</div>
+
+
       {% endblock %}
