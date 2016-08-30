@@ -1,33 +1,10 @@
 {% extends 'fosssite/home.html' %}
 {% load staticfiles %}
-{% block profile %}
-{% if request.user.is_authenticated  %}
 
-<li><a href="{% url 'fosssite:profileuser' name=request.user %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
-<li><a href="{% url 'fosssite:edit_user_profile' name=request.user %}"><span class="glyphicon glyphicon-edit"></span> Edit Profile</a></li>
-<li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-
-{% else %}
-
-<li><a href="{% url 'fosssite:UserFormView'%}"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
-<li><a href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-
-
-{% endif %}
-{% endblock %}
-{% block image %}
-{% endblock %}
-{% block content %}
+{% block body %}
 
 
 <div id='main-content' class='container'>
-	<div class='row'>
-		<div class='col-md-12'>
-			<div class='page-header'>
-			
-			</div>
-		</div>
-	</div>
 
 	<div class='row'>
 				<div class='col-md-4'>
@@ -39,30 +16,25 @@
 				{% endif %}
 				</div>
 				<div class='row'>
-					<div class='col-md-12'>
+					<div class='col-md-12' style="padding-left: 0px;">
 					  <ul class='nav navbar-nav'>
+						  {% if userprofile.twitterurl %}
 						<li><a href="{{ userprofile.twitterurl }}" target="_blank"><img alt="Twitter" height="20" src="{% static 'assets/twitter.png' %}" width="20" /></a></li>
-						<li><a href="{{ userprofile.facebookurl }}" target="_blank"><img alt="Facebook" height="20" src="{% static 'assets/fb.png' %}" width="20" /></a></li>
+						{%  endif %}
+						 {% if userprofile.facebookurl %}
+						<li><a href="{{ userprofile.facebookurl }}" target="_blank"><img alt="Facebook" height="20" src="{% static 'assets/facebook-3.svg' %}" width="20" /></a></li>
+						{%  endif %}
+						 {% if userprofile.lnkdnurl %}
 						<li><a href="{{ userprofile.lnkdnurl }}" target="_blank"><img alt="Group" height="20" src="{% static 'assets/linkedin.png' %}" width="20" /></a></li>
+						{%  endif %}
+						 {% if userprofile.githuburl %}
 						<li><a href="{{ userprofile.githuburl }}" target="_blank"><img alt="Group" height="20" src="{% static 'assets/github.png' %}" width="20" /></a></li>
+						{%  endif %}
 					  </ul>
 					</div>
 				</div>
 	</div>
 	<div class='col-md-8'>
-		<!--
-		<div class='row'>
-			<div class="col-md-12">
-				<center>
-				<div class="col-md-6">
-					<h3 class="bg-info2" style="padding: 0.5em;">Speaker / Champion Count</h3>
-					<h3 class="bg_info2">0</h3>
-				</div>
-				<div class="col-md-6"> <h3 class="bg-info2" style="padding: 0.5em;">Attended</h3>
-					<h3 class="bg_info2">1</h3>
-				</div>
-				</center>
-			</div>-->
 			<div class='col-md-12'>
 				<h3 class='bg-info2' style='padding: 0.5em;'>User Brief</h3>
 				<table class='table table-bordered'>

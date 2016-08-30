@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{%load staticfiles%}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FossLnmiit</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"  >
+<link rel="stylesheet" media="all" href="https://d79fch13sldby.cloudfront.net/assets/v5layout-c6d415a690170c151b86d293260a080a.css" />
+<link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900,100' rel='stylesheet' type='text/css'>
+{% block jsfile %}{% endblock %}
+</head>
+<body>
+    <div class="experiment">
+        <nav class="navbar navbar-default"></nav> <!-- Dummy nav bar -->
+<nav class="navbar navbar-default navbar-fixed-top " role="navigation" >
+  <div class="container-fluid">
+
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+    </div>
+
+
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-left">
+            <li class="main-nav-link ">
+                <a class="nav-link" href="{% url 'fosssite:home' %}">HOME</a>
+            </li>
+            <li class="main-nav-link s">
+                <a class="nav-link" href="{% url 'fosssite:events' %}">EVENTS</a>
+            </li>
+            <li class="main-nav-link ">
+                <a class="nav-link" href="{% url 'fosssite:contributions' %}">CONTRIBUTIONS</a>
+            </li>
+            <li class="main-nav-link ">
+                <a class="nav-link" href="{% url 'fosssite:blog' %}">BLOG</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+       {% block navbar %}
+
+       {% if request.user.is_authenticated %}
+        <ul class="nav navbar-nav navbar-right ">
+            <li class="main-nav-link">
+                <a class="nav-link"  href="{% url 'fosssite:profileuser' name=request.user %}">
+                <span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a>
+            </li>
+            <li class="main-nav-link">
+                <a class="nav-link" href="{% url 'fosssite:edit_user_profile' name=request.user %}">
+                <span class="glyphicon glyphicon-edit"></span> Edit Profile</a>
+            </li>
+            <li class="main-nav-link">
+                <a class="nav-link" href="{% url 'fosssite:logout' %}">
+                <span class="glyphicon glyphicon-log-out"></span> Logout</a>
+            </li>
+        </ul>
+        {% else %}
+        <ul class="nav navbar-nav navbar-right ">
+            <li class="main-nav-link">
+                <a class="nav-link" href="{% url 'fosssite:UserFormView'%}">
+                <span class="glyphicon glyphicon-user"></span>SIGN UP</a>
+            </li>
+            <li class="main-nav-link">
+                <a class="nav-link" href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> LOGIN</a>
+            </li>
+        </ul>
+
+        {% endif %}
+
+       {% endblock %}
+       </ul>
+
+    </div>
+  </div>
+</nav>
+
+{% block body %}
+{% endblock %}
+
+<div class="push"></div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class='container'>
+    <div class='row'>
+      <hr/>
+      <div class='col-md-2'>
+        <img alt="fosslnmiit-logo" src="{% static 'assets/foss.png' %}" height="40" width="40" /> <br/>
+      </div>
+      <div class='col-md-7'>
+              Made with <a href='http://www.django.org' target='_blank' style="color:red">Django</a> with love from <a href="http://www.getbootstrap.com" target='_blank' style="color:red">Twitter Bootstrap</a> &amp; <a href="http://www.bootswatch.com" target='_blank' style="color:red">Bootswatch</a>.
+
+      </div>
+      <div class='col-md-3'>
+        <div class='row'>
+          <div class='col-md-12'><small><strong>Foss LNMIIT Community</strong></small></div>
+        </div>
+        <div class='row'>
+          <div class='col-md-12'>
+            <ul class='nav navbar-nav'>
+              <li><a href="http://www.twitter.com/fosslnmiit" target="_blank"><img alt="Twitter" height="40" src="{% static 'assets/twitter.png' %}" width="40" /></a></li>
+              <li><a href="http://www.facebook.com/fosslnmiit" target="_blank"><img alt="Facebook" height="40" src="{% static 'assets/facebook-3.svg' %}" width="40" /></a></li>
+              <li><a href="https://groups.google.com/forum/#!forum/fosslnmiit" target="_blank"><img alt="Group" height="40" src="{% static 'assets/google.png' %}" width="40" /></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
