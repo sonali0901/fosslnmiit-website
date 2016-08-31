@@ -1,30 +1,22 @@
 {% extends 'fosssite/home.html' %}
 {% load staticfiles %}
 
-{% block acitve1 %}{% endblock %}
-{% block acitve2 %}class="active"{% endblock %}
-{% block acitve3 %}{% endblock %}
-{% block acitve4 %}{% endblock %}
 
-{% block image %}
-{% endblock %}
-
-{% block profile %}
-<li class="main-nav-link"><a class="nav-link" href="{% url 'fosssite:UserFormView'%}"><span class="glyphicon glyphicon-user"></span>SIGN UP</a></li>
-<li class="main-nav-link"><a class="nav-link" href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> LOGIN</a></li>
-
-{% endblock %}
-{% block image %}
-{% endblock %}
-{% block content %}
+{% block body %}
 
 
 <div class='row'>
-    <div  style="margin-top: 150px;margin-left: 350px;">
-       <img src="{% static 'assets/images/coming_soon.jpg' %}"/>
+    <div class="col-md-12">
+    <div  style="margin-left: 50px;" >
+       <img src="{% static 'assets/images/coming_soon.jpg' %}" class="img-responsive" alt="Responsive image">
     </div>
-  <div  style="margin-top: 150px;margin-left: 350px;">
+</div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+  <div style="margin-left: 100px;">
      <p>Please <a href="{% url 'fosssite:login_user' %}">Login</a> for more info !</p>
+  </div>
   </div>
 </div>
 
