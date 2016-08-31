@@ -165,8 +165,8 @@ def profileuser(request, name):
 		if public_user:
 			public_userprofile = get_object_or_404(UserProfile,profileuser=public_user)
 			if public_userprofile.is_public:
-				contributions_list = Contributions.objects.filter(contributionsuser=public_user)[:3]
-				speakers_list = Speakers.objects.filter(speakersuser=public_user)[:3]
+				contributions_list = Contributions.objects.filter(contributionsuser=public_user).order_by('-id')[:3]
+				speakers_list = Speakers.objects.filter(speakersuser=public_user).order_by('-id')[:3]
 				context_dict = {'userprofile':public_userprofile,
 				'user':public_user,
 				'contributions_list':contributions_list,
@@ -177,8 +177,8 @@ def profileuser(request, name):
 		return redirect('fosssite:home')
 	elif str(request.user) == name:
 		userprofile = get_object_or_404(UserProfile,profileuser=request.user)
-		contributions_list = Contributions.objects.filter(contributionsuser=request.user)[:3]
-		speakers_list = Speakers.objects.filter(speakersuser=request.user)[:3]
+		contributions_list = Contributions.objects.filter(contributionsuser=request.user).order_by('-id')[:3]
+		speakers_list = Speakers.objects.filter(speakersuser=request.user).order_by('-id')[:3]
 		context_dict={'user':request.user,
 		'userprofile':userprofile,
 		'contributions_list':contributions_list,
