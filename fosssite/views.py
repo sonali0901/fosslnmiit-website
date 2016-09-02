@@ -188,7 +188,7 @@ def profileuser(request, name):
 
 
 @login_required
-def logout(request, name):
+def logout(request):
 	auth.logout(request)
 	return HttpResponseRedirect('/')
 
@@ -329,19 +329,19 @@ def edit_speakers(request, name):
 	return render(request, 'fosssite/edit_speakers.html',context)
 
 
-def events(request, name):
+def events(request):
 	if request.user.is_authenticated():
 		return render(request,'fosssite/working.html',{})
 	return render(request, 'fosssite/events.html')
 
 
-def contributions(request, name):
+def contributions(request):
 	if request.user.is_authenticated():
 		return render(request,'fosssite/working.html',{})
 	return render(request, 'fosssite/contributions.html')
 
 
-def blog(request, name):
+def blog(request):
 	if request.user.is_authenticated():
 		return render(request,'fosssite/working.html',{})
 	return render(request, 'fosssite/blog.html')

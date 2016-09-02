@@ -37,13 +37,13 @@
                 <a class="nav-link" href="{% url 'fosssite:home' %}">HOME</a>
             </li>
             <li class="main-nav-link s">
-                <a class="nav-link" href="{% url 'fosssite:events' name=request.user %}">EVENTS</a>
+                <a class="nav-link" href="{% url 'fosssite:events' %}">EVENTS</a>
             </li>
             <li class="main-nav-link ">
-                <a class="nav-link" href="{% url 'fosssite:contributions' name=request.user %}">CONTRIBUTIONS</a>
+                <a class="nav-link" href="{% url 'fosssite:contributions' %}">CONTRIBUTIONS</a>
             </li>
             <li class="main-nav-link ">
-                <a class="nav-link" href="{% url 'fosssite:blog' name=request.user %}">BLOG</a>
+                <a class="nav-link" href="{% url 'fosssite:blog'%}">BLOG</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -60,7 +60,7 @@
                 <span class="glyphicon glyphicon-edit"></span> Edit Profile</a>
             </li>
             <li class="main-nav-link">
-                <a class="nav-link" href="{% url 'fosssite:logout' name=request.user %}">
+                <a class="nav-link" href="{% url 'fosssite:logout' %}">
                 <span class="glyphicon glyphicon-log-out"></span> Logout</a>
             </li>
         </ul>
