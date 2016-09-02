@@ -1,12 +1,7 @@
-{% extends 'fosssite/home.html' %}
-{% block profile %}
-<li class="main-nav-link">
-  <a class="nav-link" href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> LOGIN</a>
-</li>
-{% endblock %}
-{% block image%}
-{% endblock %}
-  {% block content %}
+{% extends 'fosssite/base.html' %}
+
+
+  {% block body %}
           <div id="wrapper">
              <div class="join">Join the FOSS Community</div>
                   <div class="clr"></div>
@@ -30,9 +25,9 @@
                                      <br>
                                       <input name="is_public" type="checkbox"  size="40" onClick="border: 1px solid #30a8da;"/> Make Profile Public<br>
                                       <button type="submit" class="btn">Create My Account</button>
-                                      
-                                      
-                                      
+
+
+
                                     </form>
                                 </div>
           </div>

@@ -1,17 +1,13 @@
-{% extends 'fosssite/home.html' %}
+{% extends 'fosssite/base.html' %}
 {% load staticfiles %}
 
-{% block profile %}
-<li><a href="{% url 'fosssite:profileuser' name=request.user%}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
-<li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-{% endblock %}
 
-{% block content %}
+{% block body %}
 <div id='main-content' class='container'>
    <div class='row'>
        <div class='col-md-12'>
            <div class='page-header'>
-               <h2>Edit User Profile</h2>
+               <h2>Edit Speakers/Presentations</h2>
            </div>
            <div class='page-body'>
                <form method="post" >
@@ -24,7 +20,7 @@
                     {% if error %}<p class="text-danger">{{error}}</p>{% endif %}
                     <br/>
                     <div class='row'>
-                      <div class='col-md-6'>
+                      <div class='col-md-8'>
                     {{ speakers_formset.management_form }}
                             {% for speakers_form in speakers_formset %}
 
@@ -51,21 +47,16 @@
                                     <br/>
 
                                 </div>
-                                </div>
+                                {% endfor %}
+                                <br><br>
+                                <input type="submit" value="Update" class="btn btn-success btn-lg"/>
                                 </div>
                             </div>
-                                <br/>
-                                <br/>
-                            {% endfor %}
-                            <br/>
-                            <br/>
-                            <input type="submit" value="Update" class="button"/>
-
-                </form>
+                        </form>
+                    </div>
             </div>
         </div>
     </div>
-</div>
 
 <!-- Include formset plugin - including jQuery dependency -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
