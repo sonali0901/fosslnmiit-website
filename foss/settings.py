@@ -23,7 +23,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = 'ezwgujuxhv9@3w$o^x8t#*gi-zu6c4&-h^41a-)!w--xqe1=c4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1','52.66.136.79', 'localhost','fosslnmiit.xyz','www.fosslnmiit.xyz']
 
