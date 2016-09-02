@@ -1,17 +1,13 @@
-{% extends 'fosssite/home.html' %}
+{% extends 'fosssite/base.html' %}
 {% load staticfiles %}
 
-{% block profile %}
-<li><a href="{% url 'fosssite:profileuser' name=request.user %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
-<li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-{% endblock %}
-{% block image %}
-{% endblock %}
-{% block content %}
+
+{% block body %}
 <div id='main-content' class='container'>
    <div class='row'>
  <div class='col-md-12'>
    <div class='page-header'>
+
      <h2>Edit User Profile</h2>
    </div>
    <div class='page-body'>
@@ -22,7 +18,6 @@
        <div class='row'>
          <div class='col-md-6'>
              <div class='form-group'>
-              <label for="user_email">Email</label>
               <input type="hidden" autofocus="autofocus" class="form-control" id="user_email"{{ user_form.email }}
             </div>
             <br/>
@@ -39,19 +34,19 @@
              <div class='form-group'>
                <label for="user_name">Password</label><br/><br/>
                <a href="{% url 'fosssite:changepassword' name=request.user %}">
-               <button type="button" class="btn btn-primary">Change Password</button></a>
+               <button type="button" class="btn btn-success btn-lg">Change Password</button></a>
              </div>
              <br />
              <div class='form-group'>
                <label for="user_name">Add Contributions</label><br/><br/>
                <a href="{% url 'fosssite:edit_contributions' name=request.user %}">
-               <button type="button" class="btn btn-primary">Add Contributions</button></a>
+               <button type="button" class="btn btn-success btn-lg">Add Contributions</button></a>
              </div>
              <br />
              <div class='form-group'>
                <label for="user_name">Add Speakers / Presentation</label><br/><br/>
                <a href="{% url 'fosssite:edit_speakers' name=request.user %}">
-               <button type="button" class="btn btn-primary">Add Speakers/Presentation</button></a>
+               <button type="button" class="btn btn-success btn-lg">Add Presentation</button></a>
              </div>
              <br/>
              {% if errors %}
@@ -68,6 +63,7 @@
            <br/>
        </div>
        <div class='col-md-6'>
+           <br><br>
              <div class='form-group'>
                <label for="user_handle">Handle</label>
                <input class="form-control" id="user_handle" {{ profile_form.handle }}
@@ -109,10 +105,12 @@
                    <br/>
                     (Max. 100 characters)
              </div>
-
-         <div class='form-group'>
-           <input class="btn btn-primary btn-lg" name="commit" type="submit" value="Update" />
          </div>
+         <div class='col-md-5 col-md-offset-4'>
+         <div class='form-group'>
+           <input class="btn btn-info btn-lg" name="commit" type="submit" value="Update" />
+         </div>
+     </div>
      </div>
  </div>
  </div>

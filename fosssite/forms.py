@@ -4,7 +4,6 @@ from .models import UserProfile, Contributions, Speakers
 
 LNMIIT_DOMAIN="@lnmiit.ac.in"
 
-
 class UserForm(forms.ModelForm):
 	password=forms.CharField(widget=forms.PasswordInput)
 
