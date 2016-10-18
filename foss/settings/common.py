@@ -21,7 +21,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
-ALLOWED_HOSTS = []
 
 # Application definition
 

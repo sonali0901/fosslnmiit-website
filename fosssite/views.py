@@ -191,8 +191,7 @@ def profileuser(request, name):
 @login_required
 def logout(request):
 	auth.logout(request)
-	return HttpResponse("HI")
-	#return HttpResponseRedirect('/')
+	return HttpResponseRedirect('/')
 
 @login_required
 def edit_user_profile(request, name):
