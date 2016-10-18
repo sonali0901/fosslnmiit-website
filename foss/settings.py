@@ -33,7 +33,7 @@ SERVER_EMAIL = 'fosslnmiit@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'fosslnmiit@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'lnmiit@foss'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #EMAIL_DEBUG = False
 
@@ -89,8 +89,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'fosslnmiit8postgres8',
         'USER': 'fosslnmiit_8',
-        'PASSWORD': '',
-        'HOST': 'postgresql-mumbai-test.cxuma2dcra76.ap-south-1.rds.amazonaws.com',
+        'PASSWORD': 'lnmfoss8',
+        'HOST': 'fosslnmiit-postgresql-mumbai-test.cxuma2dcra76.ap-south-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }

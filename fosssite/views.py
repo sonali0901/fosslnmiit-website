@@ -58,7 +58,7 @@ def signup_email(request):
 		if user is not None:
 			c = {
 				'email': user.email,
-				'domain': '127.0.0.1:8000', #or your domain
+				'domain': 'www.fosslnmiit.xyz', #or your domain
 				'site_name': 'FossLnmiit',
 				'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 				'user': user,
@@ -140,7 +140,7 @@ def UserFormView(request):
 		speakers.save()
 		c = {
 			'email': user.email,
-			'domain': '127.0.0.1:8000', #or your domain
+			'domain': 'www.fosslnmiit.xyz', #or your domain
 			'site_name': 'FossLnmiit',
 			'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 			'user': user,
@@ -360,7 +360,7 @@ def forgot_password(request):
 			if user is not None:
 				c = {
 					'email': user.email,
-					'domain': '127.0.0.1:8000', #or your domain
+					'domain': 'www.fosslnmiit.xyz', #or your domain
 					'site_name': 'FossLnmiit',
 					'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 					'user': user,
