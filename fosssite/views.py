@@ -12,7 +12,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template import loader
 from django.core.mail import send_mail
-from foss.settings import DEFAULT_FROM_EMAIL
+from foss.settings.local import DEFAULT_FROM_EMAIL
 from django.contrib import messages
 from django.contrib.auth.models import User
 
@@ -160,37 +160,39 @@ def UserFormView(request):
 
 
 def profileuser(request, name):
-	if str(request.user) != name:
-		public_user = User.objects.filter(username=name).first()
-		if public_user:
-			public_userprofile = get_object_or_404(UserProfile,profileuser=public_user)
-			if public_userprofile.is_public:
-				contributions_list = Contributions.objects.filter(contributionsuser=public_user).order_by('-id')[:3]
-				speakers_list = Speakers.objects.filter(speakersuser=public_user).order_by('-id')[:3]
-				context_dict = {'userprofile':public_userprofile,
-				'user':public_user,
-				'contributions_list':contributions_list,
-				'speakers_list':speakers_list
-				}
-				return render(request,'fosssite/profileuser.html',context_dict)
-			return redirect('fosssite:login_user')
-		return redirect('fosssite:home')
-	elif str(request.user) == name:
-		userprofile = get_object_or_404(UserProfile,profileuser=request.user)
-		contributions_list = Contributions.objects.filter(contributionsuser=request.user).order_by('-id')[:3]
-		speakers_list = Speakers.objects.filter(speakersuser=request.user).order_by('-id')[:3]
-		context_dict={'user':request.user,
-		'userprofile':userprofile,
-		'contributions_list':contributions_list,
-		'speakers_list':speakers_list
-		}
-		return render(request,'fosssite/profileuser.html',context_dict)
+    if str(request.user) != name:
+            public_user = User.objects.filter(username=name).first()
+            if public_user:
+                    public_userprofile = get_object_or_404(UserProfile,profileuser=public_user)
+                    if public_userprofile.is_public:
+                            contributions_list = Contributions.objects.filter(contributionsuser=public_user)[:3]
+                            speakers_list = Speakers.objects.filter(speakersuser=public_user)[:3]
+                            context_dict = {'userprofile':public_userprofile,
+                            'user':public_user,
+                            'contributions_list':contributions_list,
+                            'speakers_list':speakers_list
+                            }
+                            return render(request,'fosssite/profileuser.html',context_dict)
+                    return redirect('fosssite:login_user')
+            return redirect('fosssite:home')
+    elif str(request.user) == name:
+            userprofile = get_object_or_404(UserProfile,profileuser=request.user)
+            contributions_list = Contributions.objects.filter(contributionsuser=request.user)[:3]
+            speakers_list = Speakers.objects.filter(speakersuser=request.user)[:3]
+            context_dict={'user':request.user,
+            'userprofile':userprofile,
+            'contributions_list':contributions_list,
+            'speakers_list':speakers_list
+            }
+            return render(request,'fosssite/profileuser.html',context_dict)
+
 
 
 @login_required
 def logout(request):
 	auth.logout(request)
-	return HttpResponseRedirect('/')
+	return HttpResponse("HI")
+	#return HttpResponseRedirect('/')
 
 @login_required
 def edit_user_profile(request, name):
