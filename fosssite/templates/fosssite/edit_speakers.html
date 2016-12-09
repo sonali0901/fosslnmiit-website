@@ -1,9 +1,14 @@
-{% extends 'fosssite/base.html' %}
-{% load staticfiles %}
+{% extends 'fosssite/index.html' %}
+{%load staticfiles%}
 
+
+{% block navbar %}
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top" style="background-color: #222;padding-bottom: 0px;padding-top: 5px;margin-bottom: 10px;">
+{% endblock %}   
 
 {% block body %}
 <div id='main-content' class='container'>
+<br><br>
    <div class='row'>
        <div class='col-md-12'>
            <div class='page-header'>
@@ -50,6 +55,7 @@
                                 {% endfor %}
                                 <br><br>
                                 <input type="submit" value="Update" class="btn btn-success btn-lg"/>
+                                
                                 </div>
                             </div>
                         </form>

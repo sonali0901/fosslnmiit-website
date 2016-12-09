@@ -1,9 +1,15 @@
-{% extends 'fosssite/base.html' %}
-{% load staticfiles %}
+{% extends 'fosssite/index.html' %}
+{%load staticfiles%}
+
+
+{% block navbar %}
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top" style="background-color: #222;padding-bottom: 0px;padding-top: 5px;margin-bottom: 10px;">
+{% endblock %}   
 
 
 {% block body %}
 <div id='main-content' class='container'>
+<br><br>
    <div class='row'>
  <div class='col-md-12'>
    <div class='page-header'>
@@ -14,6 +20,11 @@
      <form accept-charset="UTF-8" action="" class="form" enctype="multipart/form-data" id="edit_user" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="KW/3tAwoPpmq/MzCtU1Eolw7K8jFlTE0QLduKwL8K8U=" /></div>
          {% csrf_token %}
 
+        {% if messages %}
+             {% for message in messages %}
+            <p class="text-success">{{ message }}</p>
+             {% endfor %}
+           {% endif %}
 
        <div class='row'>
          <div class='col-md-6'>

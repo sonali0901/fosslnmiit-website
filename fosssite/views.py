@@ -72,8 +72,8 @@ def signup_email(request):
 			subject = ''.join(subject.splitlines())
 			email = loader.render_to_string(email_template_name, c)
 			send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
-			messages.success(request,"An email has been sent to " + data +". Please check your inbox to signup.")
-			return redirect('fosssite:home')
+			messages.success(request,"An email has been sent to " + data +". Please check your inbox.")
+			return redirect('fosssite:login_user')
 		else:
 			error = "No user is associated with this Email Address."
 			return render(request,'fosssite/signup_email.html',{'error':error})
@@ -92,7 +92,7 @@ def confirm_email(request, uidb64=None, token=None):
 			user.is_active = True
 			user.save()
 			messages.success(request, "Email Address Verified! Please Login to continue !")
-			return redirect('fosssite:home')
+			return redirect('fosssite:login_user')
 		else:
 			messages.success(request,"The email verification link is no longer valid. Try again!")
 			return redirect('fosssite:signup_email')
@@ -133,6 +133,7 @@ def UserFormView(request):
 		user.is_active = False
 		user.save() #saved to database
 		profile.profileuser = user
+		profile.handle = username
 		profile.save()
 		contributions.contributionsuser = user
 		contributions.save()
@@ -154,8 +155,8 @@ def UserFormView(request):
 		subject = ''.join(subject.splitlines())
 		email = loader.render_to_string(email_template_name, c)
 		send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
-		messages.success(request,"An email has been sent to " + user.email +". Please check your inbox to signup.")
-		return redirect('fosssite:home')
+		messages.success(request,"An email has been sent to " + user.email +". Please check your inbox.")
+		return redirect('fosssite:login_user')
 	return render(request,'fosssite/signup.html',{'form':form})
 
 
@@ -178,6 +179,10 @@ def profileuser(request, name):
     elif str(request.user) == name:
             userprofile = get_object_or_404(UserProfile,profileuser=request.user)
             contributions_list = Contributions.objects.filter(contributionsuser=request.user)[:3]
+            for cont in contributions_list:
+            	if cont.organization == None:
+            		print "hi"
+            	print "hi" + cont.organization
             speakers_list = Speakers.objects.filter(speakersuser=request.user)[:3]
             context_dict={'user':request.user,
             'userprofile':userprofile,
@@ -274,10 +279,10 @@ def edit_contributions(request, name):
 					Contributions.objects.filter(contributionsuser=user).delete()
 					Contributions.objects.bulk_create(new_data)
 					messages.success(request, 'You have updated your profile.')
-					return redirect('fosssite:home')
+					return redirect('fosssite:edit_user_profile', name=request.user)
 			except:
 				messages.error(request, 'There was an error saving your profile.')
-				return redirect('fosssite:home')
+				return redirect('fosssite:edit_user_profile', name=request.user)
 
 	else:
 		contributions_formset = ContributionsFormSet(initial=link_data)
@@ -319,10 +324,10 @@ def edit_speakers(request, name):
 					Speakers.objects.filter(speakersuser=user).delete()
 					Speakers.objects.bulk_create(new_data)
 					messages.success(request, 'You have updated your profile.')
-					return redirect('fosssite:home')
+					return redirect('fosssite:edit_user_profile', name=request.user)
 			except:
 				messages.error(request, 'There was an error saving your profile.')
-				return redirect('fosssite:home')
+				return redirect('fosssite:edit_user_profile', name=request.user)
 
 	else:
 		speakers_formset = SpeakersFormSet(initial=link_data)
@@ -376,7 +381,7 @@ def forgot_password(request):
 				email = loader.render_to_string(email_template_name, c)
 				send_mail(subject, email, DEFAULT_FROM_EMAIL , [user.email], fail_silently=False)
 				messages.success(request,"An email has been sent to " + data +". Please check your inbox to continue reseting password.")
-				return redirect('fosssite:home')
+				return redirect('fosssite:login_user')
 			else:
 				error = "No user is associated with this Email Address."
 				return render(request,'fosssite/forgotpassword.html',{'error':error})
@@ -398,7 +403,7 @@ def confirm_password(request, uidb64=None, token=None):
 				if password1 == password2 and len(password1) !=0:
 					user.set_password(password1)
 					user.save()
-					messages.success(request,'Password Changed!')
+					messages.success(request,'Password Changed! Login to Continue')
 					return redirect('fosssite:login_user')
 				else:
 					messages.success(request,'Both Passwords Must Match. Please try again!')
@@ -406,6 +411,9 @@ def confirm_password(request, uidb64=None, token=None):
 			else:
 				messages.success(request,"The reset password link is no longer valid. Try again!")
 				return redirect('fosssite:forgot_password')
+		elif not default_token_generator.check_token(user, token):
+			messages.success(request,"The reset password link is no longer valid. Try again!")
+			return redirect('fosssite:forgot_password')
 		else:
 			return render(request, 'fosssite/confirm_password.html',{})
 	else:

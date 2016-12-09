@@ -1,99 +1,141 @@
-{% extends 'fosssite/home.html' %}
-{% load staticfiles %}
+{% extends 'fosssite/index.html' %}
+{%load staticfiles%}
+
+{% block css %}
+<link href="{% static 'css/userprofile.css' %}" rel="stylesheet">
+<link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css" rel="stylesheet" media="screen">  
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/userprofile.js' %}"></script>
+{% endblock %}
+
+
+{% block navbar %}
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top" style="background-color: #222;padding-bottom: 0px;padding-top: 5px;margin-bottom: 10px;">
+{% endblock %}   
 
 {% block body %}
 
+<div class="container">
+	<br><br><br><br><br><br>
+    <div class="row user-menu-container square">
+        <div class="col-md-7 user-details">
+            <div class="row coralbg white">
+                <div class="col-md-6 no-pad">
+                    <div class="user-pad">
+                        <h3>{{ user.first_name}} {{ user.last_name }}</h3>
+                        <h4 class="white" style="text-transform: lowercase;"><i class="fa fa-at"></i> {{ userprofile.handle }}</h4>
+                        <h4 class="white" style="text-transform: lowercase;"><i class="fa fa-envelope-open"></i> {{user.email}}</h4>
 
-<div id='main-content' class='container'>
+                        {% if userprofile.example %}
+                        <h4 class="white" style="text-transform: lowercase;"><i class="fa fa-leaf"></i> {{userprofile.example}}</h4>
+                        {% endif %}
 
-	<div class='row'>
-				<div class='col-md-4'>
-					<br><br>
-					<div class='row'>
-						<div class='col-md-12 col-xs-offset-2'>
-					{% if userprofile.avatar %}
-				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="{{ userprofile.avatar.url }}" width="200" />
-				{% else %}
-				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="https://secure.gravatar.com/avatar/f340b72deeb79a210ec2138dea6e8561" width="200" />
-				{% endif %}
-			</div>
-			</div><br>
-				<div class='row'>
-					<div class='col-md-12 col-xs-offset-2' style="padding-left: 0px;">
+                        {% if userprofile.facebookurl %}
+                        <a href="{{ userprofile.facebookurl }}"><i class="fa fa-facebook fa-2x"></i> </a>
+                        {% endif %}
+                        {% if userprofile.twitterurl %}
+                        <a href="{{ userprofile.twitterurl }}"><i class="fa fa-twitter fa-2x"></i> </a>
+                        {% endif %}
+                        {% if userprofile.lnkdnurl %}
+                        <a href="{{ userprofile.lnkdnurl }}"><i class="fa fa-linkedin fa-2x"></i> </a>
+                        {% endif %}
+                        {% if userprofile.githuburl %}
+                        <a href="{{ userprofile.githuburl }}"><i class="fa fa-github fa-2x"></i> </a>
+                        {% endif %}
+                        <br>
+                        <br>
+                        <a href="{% url 'fosssite:edit_user_profile' name=request.user %}" class="btn btn-labeled btn-info" role="button"><span class="btn-label"><i class="fa fa-pencil"></i></span>Update</a>           
+                    </div>
+                </div>
+                <div class="col-md-6 no-pad">
+                    <div class="user-image">
+                    {% if userprofile.avatar %}
+                    <img src="{{ userprofile.avatar.url }}" class="img-responsive thumbnail" >
+                    {% else %}
+                        <img src="{% static 'assets/images/default-profile-image.jpg' %}" class="img-responsive thumbnail">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+             <div class="row overview">
+                <div class="col-md-3 user-pad text-left">
+                    <h4>About</h4>
+                    <h3>Me</h3>
+                </div>
+                 <div class="col-md-9 user-pad1 text-left">
+                    <h3>{{userprofile.about_me}}</h3>
+                    
+                </div>
+                
+            </div>
+        </div>
+        <div class="col-md-1 user-menu-btns">
+            <div class="btn-group-vertical square" id="responsive">
 
-						  {% if userprofile.twitterurl %}
-						<a href="{{ userprofile.twitterurl }}" target="_blank"><img alt="Twitter" height="20" src="{% static 'assets/twitter.png' %}" width="20" style="margin-right: 10px; margin-left: 15px;"/></a>
-						{%  endif %}
-						 {% if userprofile.facebookurl %}
-						<a href="{{ userprofile.facebookurl }}" target="_blank"><img alt="Facebook" height="20" src="{% static 'assets/facebook-3.svg' %}" width="20" style="margin-right: 10px; margin-left: 15px;" /></a>
-						{%  endif %}
-						 {% if userprofile.lnkdnurl %}
-						<a href="{{ userprofile.lnkdnurl }}" target="_blank"><img alt="Group" height="20" src="{% static 'assets/linkedin.png' %}" width="20" style="margin-right: 10px; margin-left: 15px;" /></a>
-						{%  endif %}
-						 {% if userprofile.githuburl %}
-					<a href="{{ userprofile.githuburl }}" target="_blank"><img alt="Group" height="20" src="{% static 'assets/github.png' %}" width="20" style="margin-right: 10px; margin-left: 15px;" /></a>
-						{%  endif %}
-
-					</div>
-				</div>
-	</div>
-	<div class='col-md-8'>
-			<div class='col-md-12'>
-				<h3 class='bg-info2' style='padding: 0.5em;'>User Brief</h3>
-				<table class='table table-bordered'>
-						<tr>
-							<th width='30%'>Name</th>
-							<td>{{ user.first_name}} {{ user.last_name }}</td>
-						</tr>
-						<tr>
-							<th>Handle</th>
-							<td>{{ userprofile.handle }}</td>
-						</tr>
-						<tr>
-							<th width='30%'>Email</th>
-							<td>{{user.email}}</td>
-						</tr>
-						<tr>
-							<th width='30%'>About Me</th>
-							<td>{{userprofile.about_me}}</td>
-						</tr>
-						<tr>
-							<th width='30%'>Website</th>
-							<td><a href="{{userprofile.example}}">{{userprofile.example}}</a></td>
-						</tr>
-
-				</table>
-			</div>
-			<div class='col-md-12'>
-				<h3>Contributions :-</h3><br>
-					{% if contributions_list %}
-						<ul>
+                <a href="#" class="btn btn-block btn-default active">
+                  <i class="fa fa-users fa-4x"></i>
+                </a>
+                <a href="#" class="btn btn-default">
+                  <i class="fa fa-slideshare fa-4x"></i>
+                </a>
+                
+                
+            </div>
+        </div>
+        <div class="col-md-4 user-menu user-pad">
+            <div class="user-menu-content active">
+                <h3>
+                    Contributions
+                </h3>
+                <ul class="user-menu-list">
+                {% if contributions_list  %}
 						{% for contribution in contributions_list %}
-						<li><a href="{{ contribution.contribution_link }}">{{ contribution.organization }}</a></li>
-						<br>
+							{% if not contribution.organization  %}
+								<p>No Contributions</p>
+							{% else %}	
+							<li>
+								<i class="fa fa-arrow-right coral"></i>
+								<a href="{{ contribution.contribution_link }}">{{ contribution.organization }}</a>
+							</li>
+							{% endif %}
+							<br>
 						{% endfor %}
-					</ul>
-					{% else %}
-						<p>No Contributions</p>
-					{% endif %}
-					<br><br>
-					<h3>Speakers/Presentations :-</h3><br>
-						{% if speakers_list %}
-							<ul>
+				{% else %}
+					<p>No Contributions</p>
+				{% endif %}
+                    
+                </ul>
+            </div>
+            <div class="user-menu-content">
+                <h3>
+                    Speakers/Presentations
+                </h3>
+                <ul class="user-menu-list">
+                {% if speakers_list %}
+						
 							{% for speakers in speakers_list %}
-							<li><a href="{{ speakers.event_link }}">{{ speakers.event_name }}</a></li>
+							{% if not speakers.event_name  %}
+							<p>No Speakers / Presentations</p>
+							{% else %}	
+							<li>
+								<i class="fa fa-arrow-right coral"></i>
+								<a href="{{ speakers.event_link }}">{{ speakers.event_name }}</a>
+								</li>
+								{% endif %}
 							<br>
 							{% endfor %}
-						</ul>
+				
 						{% else %}
 							<p>No Speakers / Presentations</p>
 						{% endif %}
-			</div>
-		</div>
-	</div>
-	</div>
-
-
-
-
+                  
+                </ul>
+            </div>
+            
+          
+        </div>
+    </div>
+</div>
 {% endblock %}
