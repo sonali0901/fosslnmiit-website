@@ -1,23 +1,66 @@
-{% extends 'fosssite/base.html' %}
+{% extends 'fosssite/index.html' %}
 {%load staticfiles%}
 
+{% block body %}
 
-    {% block body %}
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-lead-in">Welcome To Foss Lnmiit!</div>
+                <div class="intro-heading">It's Nice To Meet You</div>
+                {% if request.user.is_authenticated %}
+                {% else %}
+                <a href="{% url 'fosssite:UserFormView'%}" class="page-scroll btn btn-xl">Sign Up</a>
+            	{% endif %}
+            </div>
+        </div>
+    </header>
 
-    <div class='row'>
-        <div class="col-md-12 " >
-      <div >
-          {% if messages %}
-              {% for message in messages %}
-               <p class="text-success">{{ message }}</p>
-              {% endfor %}
-          {% endif %}
-      </div>
-</div>
-<div>
-  <img src="{% static 'assets/images/bg.jpg' %}" class="img-responsive" alt="Responsive image">
-</div>
-</div>
+    <!-- Team Section -->
+    <section id="" class="bg-light-gray" style="padding-top: 20px;padding-bottom: 10px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Our Amazing Team</h2>
+                    <h3 class="section-subheading text-muted"></h3>
+                </div>
+            </div>
+            <div class="row" style="margin-left: 300px;margin-right: 0px;">
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img src="{% static 'img/team/1.jpg' %}" class="img-responsive img-circle" alt="">
+                        <h4>Sagar Chand Agarwal</h4>
+                        <p class="text-muted">Leader</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="team-member">
+                        <img src="{% static 'img/team/2.jpg' %}" class="img-responsive img-circle" alt="">
+                        <h4>Hitesh Garg</h4>
+                        <p class="text-muted">Full Stack Developer</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="https://twitter.com/14hiteshgarg"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="https://www.facebook.com/hitesh14garg"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="https://www.linkedin.com/in/hitesh-garg-3574baab"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+               
+            </div>
+           
+        </div>
+    </section>
 
-
-      {% endblock %}
+   {% endblock %}

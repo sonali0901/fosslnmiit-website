@@ -1,34 +1,57 @@
-{% extends 'fosssite/base.html' %}
+{% extends 'fosssite/index.html' %}
+{%load staticfiles%}
+
+{% block css %}
+<link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top" style="background-color: #222;padding-bottom: 0px;padding-top: 5px;margin-bottom: 10px;">
+{% endblock %}   
 
 
   {% block body %}
-          <div id="wrapper">
-             <div class="join">Join the FOSS Community</div>
-                  <div class="clr"></div>
-                                <div class="forms">
-                                    <form action="" method="POST" name="register" enctype="multipart/form-data">
-                                        {% csrf_token %}
 
-                                        <p class="text-danger">{{ form.first_name.errors.as_text  }}</p>
-                                      <input name="fname" type="text" placeholder="First Name" size="40" onClick="border: 1px solid #30a8da;" id="fname"/>
-                                      <p class="text-danger">{{ form.last_name.errors.as_text  }}</p>
-                                      <input name="lname" type="text" placeholder="Last Name" size="40" onClick="border: 1px solid #30a8da;" id="lname"/>
-                                      <p class="text-danger">{{ form.username.errors.as_text  }}</p>
-                                      <input name="username" type="text" placeholder="Username" size="40" onClick="border: 1px solid #30a8da;" id="username"/>
-                                      <p class="text-danger">{{ form.email.errors.as_text  }}</p>
-                                      {% if msg %}
-                                      <p class="text-danger">{{ msg  }}</p>
-                                      {% endif %}
-                                      <input name="email" type="text" placeholder="Email ID" size="40" onClick="border: 1px solid #30a8da;" id="mail"/>
-                                      <p class="text-danger">{{ form.password.errors.as_text  }}</p>
-                                      <input name="password" type="password" placeholder="Password" size="40" onClick="border: 1px solid #30a8da;" id="password"/>
-                                     <br>
-                                      <input name="is_public" type="checkbox"  size="40" onClick="border: 1px solid #30a8da;"/> Make Profile Public<br>
-                                      <button type="submit" class="btn">Create My Account</button>
+  <div class = "container">
+  <div class="wrapper2">
+
+    <form action="" method="post" name="Login_Form" class="form-signin">   
+      {% csrf_token %}    
+        <h3 class="form-signin-heading">Join the FOSS Community</h3>
+        <hr class="colorgraph"><br>
+          
+          <p class="text-danger">{{ form.first_name.errors.as_text  }}</p>
+        <input type="text" class="form-control" name="fname" placeholder="First Name" required="true" autofocus="" />
+        <br/>
+
+        <p class="text-danger">{{ form.last_name.errors.as_text  }}</p>
+         <input type="text" class="form-control" name="lname" placeholder="Last Name" required="true" autofocus="" />
+        <br/>
+
+        <p class="text-danger">{{ form.username.errors.as_text  }}</p>
+         <input type="text" class="form-control" name="username" placeholder="Username" required="true" autofocus="" />
+        <br/> 
+
+         <p class="text-danger">{{ form.email.errors.as_text  }}</p>
+        {% if msg %}
+        <p class="text-danger">{{ msg  }}</p>
+        {% endif %}
+        
+        <input type="email" class="form-control" name="email" placeholder="LNMIIT Email ID" required="true" autofocus="" />
+        <br/>
+
+        <p class="text-danger">{{ form.password.errors.as_text  }}</p>
+        <input type="password" class="form-control" name="password" placeholder="Password" required="true"/>          
+      
+
+       <input name="is_public" type="checkbox" /> Make Profile Public  <br> <br>
+
+        <button class="btn btn-lg btn-primary btn-block"  type="Submit">Create My Account</button> <br>   
+        <p>Already Have an account?<a href="{% url 'fosssite:login_user' %}"> <strong> Log In</strong></a></p>      
+    </form> 
+
+  </div>
+</div>
 
 
-
-                                    </form>
-                                </div>
-          </div>
 {% endblock %}

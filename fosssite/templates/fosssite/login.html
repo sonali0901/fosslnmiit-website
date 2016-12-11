@@ -1,18 +1,24 @@
-{% extends 'fosssite/base.html' %}
+{% extends 'fosssite/index.html' %}
 {%load staticfiles%}
 
+{% block css %}
+<link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top" style="background-color: #222;padding-bottom: 0px;padding-top: 5px;margin-bottom: 10px;">
+{% endblock %}   
 
 {% block body %}
-<div id="wrapper">
-   <div class="join">
-	 Welcome Back!!
-   </div>
-	   <div class="clr">
-		 <hr />
-	   </div>
-		   <div class="mail-text">Login with your credentials!!</div>
-			   <div class="forms">
-				   {% if error_message %}
+
+<div class = "container">
+	<div class="wrapper2">
+
+		<form action="" method="post" name="Login_Form" class="form-signin">   
+			{% csrf_token %}    
+		    <h3 class="form-signin-heading">Welcome Back! Please Sign In</h3>
+			  <hr class="colorgraph"><br>
+			  {% if error_message %}
 					   <p class="text-danger">{{ error_message }}</p>
 				   {% endif %}
 				   {% if message %}
@@ -23,15 +29,18 @@
 						<p class="text-success">{{ message }}</p>
 					   {% endfor %}
 				   {% endif %}
-				   <br/>
-				 <form action="" method="POST">{% csrf_token %}
-				   <input name="username" type="text" placeholder="Username" size="40" onClick="border: 1px solid #30a8da;" id="username"/>
-				   <input name="password" type="password" placeholder="Password" size="40" onClick="border: 1px solid #30a8da;" id="password"/><br/>
+				  
+			  <input type="text" class="form-control" name="username" placeholder="Username" required="true" autofocus="" />
+			  <br/>
+			  <input type="password" class="form-control" name="password" placeholder="Password" required="true"/>     		  
+			 
+			 <a href="{% url 'fosssite:forgot_password' %}">Forgot Password</a><br/><br/>	
+			  <button class="btn btn-lg btn-primary btn-block"  type="Submit">Login</button> <br> 	
+			  <p>Don't Have an account?<a href="{% url 'fosssite:UserFormView'%}"> <strong> Sign Up</strong></a></p>			
+		</form>	
 
-				   <a href="{% url 'fosssite:forgot_password' %}">Forgot Password</a><br/><br/>
-				   <button type="submit" class="btn">Log In</button>
-				 </form>
-			   </div>
- </div>
+	</div>
+</div>
+
 
 {% endblock %}

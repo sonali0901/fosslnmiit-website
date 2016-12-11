@@ -1,29 +1,43 @@
-{% extends 'fosssite/base.html' %}
+{% extends 'fosssite/index.html' %}
+{%load staticfiles%}
+
+{% block css %}
+<link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top" style="background-color: #222;padding-bottom: 0px;padding-top: 5px;margin-bottom: 10px;">
+{% endblock %}   
 
 {% block body %}
-  <div id="wrapper">
-    <div class="join">
-      Verify Email Address
-    </div>
-        <div class="clr">
-          <hr />
-        </div>
 
-                <div class="forms">
-                    {% if messages %}
-                        {% for message in messages %}
-                         <p class="text-primary">{{ message }}</p>
-                        {% endfor %}
-                    {% endif %}
-                    {% if error %}
-                        <p class="text-danger">{{ error }}</p>
-                    {% endif %}
-                    <br/>
-                  <form action="" method="POST">{% csrf_token %}
-                    <input name="signup_email" type="text" placeholder="Email" size="40" onClick="border: 1px solid #30a8da;" id="email"/>
-                    <br/>
-                    <button type="submit" class="btn btn-success btn-lg">Verify</button>
-                  </form>
-                </div>
+<div class = "container">
+  <div class="wrapper2">
+
+    <form action="" method="post" name="Login_Form" class="form-signin">   
+      {% csrf_token %}    
+        <h3 class="form-signin-heading">Verify Email Address</h3>
+        <hr class="colorgraph"><br>
+        {% if messages %}
+            {% for message in messages %}
+             <p class="text-primary">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        {% if error %}
+            <p class="text-danger">{{ error }}</p>
+        {% endif %}
+        
+         <input name="signup_email" class="form-control" type="email" placeholder="LNMIIT Email ID" id="email" required="true" />
+          <br/>
+    
+        <button class="btn btn-lg btn-primary btn-block"  type="Submit">Verify</button> <br>   
+           
+    </form> 
+
   </div>
+</div>
+
+
 {% endblock %}
+
+

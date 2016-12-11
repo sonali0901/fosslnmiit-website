@@ -1,11 +1,14 @@
-{% extends 'fosssite/base.html' %}
+{% extends 'fosssite/index.html' %}
 {% load staticfiles %}
 
+{% block navbar %}
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top" style="background-color: #222;padding-bottom: 0px;padding-top: 5px;margin-bottom: 10px;">
+{% endblock %}   
 
 {% block body %}
-<br><br>
-<div class='row'>
-  <div style="margin-left: 50px;" >
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <div style="margin-left: 250px;" >
      <img src="{% static 'assets/images/coming_soon.jpg' %}" class="img-responsive" alt="Responsive image">
   </div>
 </div>
